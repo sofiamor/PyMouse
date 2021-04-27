@@ -1,5 +1,5 @@
 # Object experiment
-
+import np as np
 from Experiments.VR import *
 from Behavior import *
 from Stimuli.VROdors import *
@@ -10,71 +10,63 @@ conditions = []
 
 # define session parameters
 session_params = {
-    'trial_selection'    : 'fixed',
-    'reward'             : 'water',
+    'trial_selection'        : 'staircase',
+    'reward'                 : 'water',
     'noresponse_intertrial'  : True,
-    'resp_cond'          : 'correct_loc'
+    'resp_cond'              : 'correct_loc',
+    'max_reward'             : 3000,
+    'staircase_window'       : 10,
+    'stair_up'               : 0.7,
+    'stair_down'             : 0.6
 }
 
 # define environment conditions
 key = {
-    'background_color'      : (.01, .01, .01),
-    'ambient_color'         : (0.1, 0.1, 0.1, 1),
-    'direct1_color'         : (0.7, 0.7, 0.7, 1),
-    'direct1_dir'           : (0, -20, 0),
-    'direct2_color'         : (0.2, 0.2, 0.2, 1),
-    'direct2_dir'           : (180, -20, 0),
     'init_ready'            : 0,
-    'cue_ready'             : 100,
     'delay_ready'           : 0,
     'resp_ready'            : 0,
     'intertrial_duration'   : 0,
-    'cue_duration'          : 20000,
-    'delay_duration'        : 5000,
-    'response_duration'     : 4000,
+    'response_duration'     : 30000,
     'reward_amount'         : 8,
     'reward_duration'       : 2000,
     'punish_duration'       : 1000,
-    'obj_dur'               : 20000,
-    'obj_delay'             : 0,
-    'ready_loc'             : [[0,0]],
+    'xmx'                   : 10,
+    'xmn'                   : 0,
+    'ymx'                   : 10,
+    'ymn'                   : 0,
     'probe'                 : 1
 }
 
 np.random.seed(0)
 conditions += factorize({**key,
-                        'difficulty': 1,
-                        'obj_id'    : 1,
-                        'correct_loc': [[0, 0]],
-                        'obj_pos_x' : [0,1],
-                        'obj_pos_y' : [0,1],
-                        'obj_mag'   : 0,
-                        'obj_rot'   : 0,
-                        'obj_tilt'  : 0,
-                        'obj_yaw'   : 0,
-                        'obj_period': 'Response',
-                        'cue_ready' : 0,
-                        'response_duration': 240000,
-                        'obj_dur'   : 0,
-                        'touch_area': [[(500,300)]]})
+                        'difficulty'          : 1,
+                        'odor_id'             : [[1, 2, 3, 4]],
+                        'delivery_port'       : [[1, 2, 3, 4]],
+                        'trial_duration'      : 300000,
+                        'intertrial_duration' : 0,
+                        'fun'                 : 2,
+                        'radius'              : 0.3,
+                        'small_radius'        : 0.05,
+                        'response_duration'   : 240000})
 
-obj_timepoints = 5
-obj_combs = [[1, 1], [1, 1], [2, 2], [2, 2]]
-correct_loc = [(-0.25,0),(0.25,0),(0.25,0),(-0.25,0)]
-obj_posX = [[0, -.25], [0, .25], [0, .25], [0, -.25]]
+
+correct_loc = [(7,7)]
+resp_loc_x = 7
+resp_loc_y = 7
+# correct_loc = [(-0.25,0),(0.25,0),(0.25,0),(-0.25,0)]
+
 for idx, obj_comb in enumerate(obj_combs):
-    rot_f = lambda: interp(np.random.rand(obj_timepoints) *200)
+    rot_f = lambda: interp(np.random.rand() *200)
     conditions += factorize({**key,
-                            'difficulty': 2,
-                            'obj_id'    : [obj_comb],
-                            'correct_loc': [correct_loc[idx]],
-                            'obj_pos_x' : [obj_posX[idx]],
-                            'obj_pos_y' : [[-0.13,-0.13,-0.13]],
-                            'obj_mag'   : .5,
-                            'obj_rot'   : [[rot_f(), rot_f()]],
-                            'obj_tilt'  : 0,
-                            'obj_yaw'   : 0,
-                            'obj_period': [['Cue', 'Response']]})
+                            'difficulty'           : 2,
+                            'odor_id'             : [[3, 4, 1, 2]],
+                            'delivery_port'       : [[3, 4, 1, 2]],
+                            'trial_duration'      : 300000,
+                            'intertrial_duration' : 0,
+                            'fun'                 : 3,
+                            'radius'              : 0.2,
+                            'small_radius'        : 0.05,
+                            'response_duration'   : 240000})
 
 
 # run experiments

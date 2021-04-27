@@ -264,6 +264,9 @@ class TouchBehavior(Behavior):
 
 class VRBehavior(Behavior):
     def __init__(self, logger, params):
+        self.previous_x = 0
+        self.previous_y = 0
+        self.resp_loc_x = None
         self.interface = VRProbe(logger)
         super(VRBehavior, self).__init__(logger, params)
 
@@ -287,6 +290,14 @@ class VRBehavior(Behavior):
         x, y = self.get_position()
         in_position = any(((self.resp_loc_x - x)**2 + (self.resp_loc_y - y)**2)**.5 < self.radius)
         return in_position
+
+    def is_running(self):
+        x, y = self.get_position()
+        Dx = self.previous_x - x
+        Dy = self.previous_y - y
+        if Dx > self.small_radius:
+            return
+
 
     def is_correct(self, condition):
         x, y = self.get_position()
