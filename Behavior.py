@@ -267,6 +267,8 @@ class VRBehavior(Behavior):
         self.previous_x = 0
         self.previous_y = 0
         self.resp_loc_x = None
+        self.resp_loc_y = None
+        self.move_thres = 0.05
         self.interface = VRProbe(logger)
         super(VRBehavior, self).__init__(logger, params)
 
@@ -295,9 +297,11 @@ class VRBehavior(Behavior):
         x, y = self.get_position()
         Dx = self.previous_x - x
         Dy = self.previous_y - y
-        if Dx > self.small_radius:
-            return
-
+        move_thr = self.move_thres
+        if Dx and Dy > move_thr:
+            return True
+        else:
+            return False
 
     def is_correct(self, condition):
         x, y = self.get_position()

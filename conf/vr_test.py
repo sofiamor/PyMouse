@@ -30,10 +30,10 @@ key = {
     'reward_amount'         : 8,
     'reward_duration'       : 2000,
     'punish_duration'       : 1000,
-    'xmx'                   : 10,
-    'xmn'                   : 0,
-    'ymx'                   : 10,
-    'ymn'                   : 0,
+    'x_max'                 : 10,
+    'x_min'                 : 0,
+    'y_max'                 : 10,
+    'y_min'                 : 0,
     'probe'                 : 1
 }
 
@@ -42,6 +42,9 @@ conditions += factorize({**key,
                         'difficulty'          : 1,
                         'odor_id'             : [[1, 2, 3, 4]],
                         'delivery_port'       : [[1, 2, 3, 4]],
+                        'theta0'              : 0
+                        'x0'                  : 5
+                        'y0'                  : 5
                         'trial_duration'      : 300000,
                         'intertrial_duration' : 0,
                         'fun'                 : 2,
@@ -54,13 +57,18 @@ correct_loc = [(7,7)]
 resp_loc_x = 7
 resp_loc_y = 7
 # correct_loc = [(-0.25,0),(0.25,0),(0.25,0),(-0.25,0)]
+#x0, y0, loc_x0, loc_y0, theta0,
 
 for idx, obj_comb in enumerate(obj_combs):
-    rot_f = lambda: interp(np.random.rand() *200)
+    rand_theta = lambda: interp(np.random.randint(6)* np.pi / 180 )
     conditions += factorize({**key,
-                            'difficulty'           : 2,
+                            'difficulty'          : 2,
                             'odor_id'             : [[3, 4, 1, 2]],
                             'delivery_port'       : [[3, 4, 1, 2]],
+                            'theta0'              : [[rand_theta()]]
+                            'x0'                  : 5
+                            'y0'                  : 5
+                            'reward_amount'       : 8,
                             'trial_duration'      : 300000,
                             'intertrial_duration' : 0,
                             'fun'                 : 3,
