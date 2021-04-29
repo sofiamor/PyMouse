@@ -42,9 +42,9 @@ conditions += factorize({**key,
                         'difficulty'          : 1,
                         'odor_id'             : [[1, 2, 3, 4]],
                         'delivery_port'       : [[1, 2, 3, 4]],
-                        'theta0'              : 0
-                        'x0'                  : 5
-                        'y0'                  : 5
+                        'theta0'              : 0,
+                        'x0'                  : 5,
+                        'y0'                  : 5,
                         'trial_duration'      : 300000,
                         'intertrial_duration' : 0,
                         'fun'                 : 2,
@@ -56,26 +56,41 @@ conditions += factorize({**key,
 correct_loc = [(7,7)]
 resp_loc_x = 7
 resp_loc_y = 7
+
 # correct_loc = [(-0.25,0),(0.25,0),(0.25,0),(-0.25,0)]
-#x0, y0, loc_x0, loc_y0, theta0,
 
-for idx, obj_comb in enumerate(obj_combs):
-    rand_theta = lambda: interp(np.random.randint(6)* np.pi / 180 )
-    conditions += factorize({**key,
-                            'difficulty'          : 2,
-                            'odor_id'             : [[3, 4, 1, 2]],
-                            'delivery_port'       : [[3, 4, 1, 2]],
-                            'theta0'              : [[rand_theta()]]
-                            'x0'                  : 5
-                            'y0'                  : 5
-                            'reward_amount'       : 8,
-                            'trial_duration'      : 300000,
-                            'intertrial_duration' : 0,
-                            'fun'                 : 3,
-                            'radius'              : 0.2,
-                            'small_radius'        : 0.05,
-                            'response_duration'   : 240000})
+rand_theta = lambda: interp(np.random.randint(6)* np.pi / 180)
+conditions += factorize({**key,
+                         'difficulty'          : 2,
+                         'odor_id'             : [[3, 4, 1, 2]],
+                         'delivery_port'       : [[3, 4, 1, 2]],
+                         'theta0'              : [[rand_theta()]],
+                         'x0'                  : 5,
+                         'y0'                  : 5,
+                         'reward_amount'       : 8,
+                         'trial_duration'      : 300000,
+                         'intertrial_duration' : 0,
+                         'fun'                 : 3,
+                         'radius'              : 0.2,
+                         'small_radius'        : 0.05,
+                         'response_duration'   : 240000})
 
+rand_theta = lambda: interp(np.random.randint(6)* np.pi / 180)
+init_position = lambda: interp(np.random.randint(10, size = (1)))
+conditions += factorize({**key,
+                         'difficulty': 3,
+                         'odor_id': [[1, 2, 3, 4]],
+                         'delivery_port': [[1, 2, 3, 4]],
+                         'theta0': [[rand_theta()]],
+                         'x0': [[init_position()]],
+                         'y0': [[init_position()]],
+                         'reward_amount': 8,
+                         'trial_duration': 300000,
+                         'intertrial_duration': 0,
+                         'fun': 3,
+                         'radius': 0.2,
+                         'small_radius': 0.05,
+                         'response_duration': 240000})
 
 # run experiments
 exp = State()
