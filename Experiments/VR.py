@@ -81,11 +81,13 @@ class Trial(State):
         self.response = self.beh.is_licking(self.period_start)
 
     def next(self):
-        if self.response and self.beh.is_correct():  # correct response
+        if self.response and self.beh.is_running():
+            return states['Abort']
+        if self.response and self.beh.is_correct() and not self.beh.is_running():  # correct response
             return states['Reward']
         elif not self.beh.is_ready() and self.response:
             return states['Abort']
-        elif self.response and not self.beh.is_correct():  # incorrect response
+        elif self.response and not self.beh.is_ready():  # incorrect response
             return states['Punish']
         elif self.timer.elapsed_time() > self.stim.curr_cond['response_duration']:  # timed out
             return states['InterTrial']
@@ -146,6 +148,8 @@ class InterTrial(State):
             return states['Exit']
         elif self.timer.elapsed_time() >= self.stim.curr_cond['intertrial_duration']:
             return states['PreTrial']
+        elif not self.is_running:
+            return states['Pretrial']
         else:
             return states['InterTrial']
 

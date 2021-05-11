@@ -57,6 +57,7 @@ class Prepare(State):
 
 class PreTrial(State):
     def entry(self):
+        self.resp_ready = False
         self.stim.prepare()
         self.beh.prepare(self.stim.curr_cond)
         self.logger.init_trial(self.stim.curr_cond['cond_hash'])
@@ -119,7 +120,7 @@ class Delay(State):
             self.resp_ready = True
 
     def next(self):
-        if self.resp_ready:
+        if self.resp_ready and self.timer.elapsed_time() > self.stim.curr_cond['delay_duration']: # this specifies the minimum amount of time we want to spend in the delay period contrary to the cue_duration FIX IT
             return states['Response']
         elif self.response:
             return states['Abort']
@@ -150,7 +151,7 @@ class Response(State):
         elif self.response and not self.beh.is_correct():  # incorrect response
             return states['Punish']
         elif self.timer.elapsed_time() > self.stim.curr_cond['response_duration']:      # timed out
-            return states['InterTrial']
+            return states['Abort']
         elif self.logger.setup_status in ['stop', 'exit']:
             return states['Exit']
         else:
@@ -189,12 +190,15 @@ class Punish(State):
     def entry(self):
         self.beh.punish()
         super().entry()
+        self.punish_period = self.stim.curr_cond['punish_duration']
+        if self.params.get('incremental_punishment'):
+            self.punish_period *= self.beh.get_false_history()
 
     def run(self):
         self.stim.punish_stim()
 
     def next(self):
-        if self.timer.elapsed_time() >= self.stim.curr_cond['punish_duration']:
+        if self.timer.elapsed_time() >= self.punish_period:
             return states['InterTrial']
         else:
             return states['Punish']
@@ -247,7 +251,7 @@ class Offtime(State):
         self.stim.unshow([0, 0, 0])
 
     def run(self):
-        if self.logger.setup_status != 'sleeping' and self.beh.is_sleep_time():
+        if self.logger.setup_status not in ['sleeping', 'wakeup'] and self.beh.is_sleep_time():
             self.logger.update_setup_info({'status': 'sleeping'})
         self.logger.ping()
         time.sleep(1)

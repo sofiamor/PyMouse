@@ -52,6 +52,10 @@ class Behavior:
         self.reward_history.append(reward)
         self.logger.total_reward = np.nansum(self.reward_history)
 
+    def get_false_history(self, h=10):
+        idx = np.logical_and(np.isnan(self.reward_history), ~np.isnan(self.choice_history))
+        return np.sum(np.cumprod(np.flip(idx[-h:])))
+
     def is_sleep_time(self):
         now = datetime.now()
         start = now.replace(hour=0, minute=0, second=0) + self.logger.setup_info['start_time']
@@ -260,6 +264,11 @@ class TouchBehavior(Behavior):
 
 class VRBehavior(Behavior):
     def __init__(self, logger, params):
+        self.previous_x = 0
+        self.previous_y = 0
+        self.resp_loc_x = None
+        self.resp_loc_y = None
+        self.move_thres = 0.05
         self.interface = VRProbe(logger)
         super(VRBehavior, self).__init__(logger, params)
 
@@ -281,11 +290,23 @@ class VRBehavior(Behavior):
 
     def is_ready(self):
         x, y = self.get_position()
-        in_position = ((self.resp_loc_x - x)**2 + (self.resp_loc_y - y)**2)**.5 < self.radius     
+        in_position = any(((self.resp_loc_x - x)**2 + (self.resp_loc_y - y)**2)**.5 < self.radius)
+        return in_position
+
+    def is_running(self):
+        x, y = self.get_position()
+        Dx = self.previous_x - x
+        Dy = self.previous_y - y
+        move_thr = self.move_thres
+        if Dx and Dy > move_thr:
+            return True
+        else:
+            return False
 
     def is_correct(self, condition):
         x, y = self.get_position()
-        in_position = ((self.correct_loc[0] - x)**2 + (self.correct_loc[1] - y)**2)**.5 < self.radius   
+        in_position = ((self.correct_loc[0] - x)**2 + (self.correct_loc[1] - y)**2)**.5 < self.radius
+        return in_position
 
     def get_position(self):
         return self.vr.getPosition()
