@@ -188,7 +188,7 @@ class VRProbe(Interface):
                          'liquid': {1: 22},
                          'lick': {1: 17}}
         self.frequency = 10
-        self.GPIO.setup(list(self.channels['lick'].values()) + [self.channels['start'][1]],
+        self.GPIO.setup(list(self.channels['lick'].values()),
                         self.GPIO.IN, pull_up_down=GPIO.PUD_DOWN)
         self.GPIO.setup(list(self.channels['odor'].values()), self.GPIO.OUT, initial=self.GPIO.LOW)
         self.GPIO.add_event_detect(self.channels['lick'][1], self.GPIO.RISING, callback=self.probe1_licked, bouncetime=100)
@@ -223,7 +223,6 @@ class VRProbe(Interface):
     def cleanup(self):
         self.pwm[self.channels['air']].stop()
         self.GPIO.remove_event_detect(self.channels['lick'][1])
-        self.GPIO.remove_event_detect(self.channels['start'][1])
         self.GPIO.cleanup()
         self.Pulser.wave_clear()
 
@@ -238,6 +237,7 @@ class Ball(Interface):
         self.xmx = xmx
         self.ymx = ymx
         self.timestamp = 0
+        self.correct_loc = correct_loc
         self.phi_z1 = 1  # angle of z axis (rotation)
         self.phi_z2 = self.phi_z1
         self.phi_y1 = np.pi - 0.13  # angle of y1 axis (mouse1) .6
