@@ -274,10 +274,12 @@ class VRBehavior(Behavior):
 
     def prepare(self, condition):
         self.reward_amount = self.interface.calc_pulse_dur(condition['reward_amount'])
-        self.vr = Ball(condition['x_max'], condition['y_max'], condition['x0'], condition['y0'], condition['theta0'])
+        self.vr = Ball(condition['x_max'], condition['y_max'], condition['x0'], condition['y0'], condition['correct_loc'], condition['radius'], condition['theta0'])
         self.loc_x0 = condition['loc_x0']
         self.loc_y0 = condition['loc_y0']
         self.theta0 = condition['theta0']
+        self.correct_loc = condition['correct_loc']
+        self.radius = condition['radius']
 
     def is_licking(self, since=0):
         licked_probe, tmst = self.interface.get_last_lick()
