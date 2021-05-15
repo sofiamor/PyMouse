@@ -429,6 +429,8 @@ class VRCond(dj.Manual):
     # vr conditions
     -> Condition
     ---
+    probe=0                  : int
+    reward_amount            : int
     odor_duration            : int
     """
 
