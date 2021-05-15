@@ -270,7 +270,11 @@ class VRBehavior(Behavior):
         self.resp_loc_y = None
         self.move_thres = 0.05
         self.interface = VRProbe(logger)
+        self.cond_tables = ['VRCond']
         super(VRBehavior, self).__init__(logger, params)
+
+    def get_cond_tables(self):
+        return ['VRCond']
 
     def prepare(self, condition):
         self.reward_amount = self.interface.calc_pulse_dur(condition['reward_amount'])

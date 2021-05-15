@@ -79,7 +79,7 @@ class Files(dj.Manual):
 class Condition(dj.Manual):
     definition = """
     # unique stimulus conditions
-    cond_hash             : char(24)                 # unique condition hash
+    cond_hash              : char(24)                 # unique condition hash
     ---
     cond_tuple=null        : blob      
     """
@@ -421,6 +421,25 @@ class OdorCond(dj.Manual):
         ---
         odor_id              : int                      # odor index for odor identity
         dutycycle            : int                      # odor dutycycle
+        """
+
+@schema
+class VRCond(dj.Manual):
+    definition = """
+    # vr conditions
+    -> Condition
+    ---
+    odor_duration            : int
+    """
+
+    class Port(dj.Part):
+        definition = """
+        # vr conditions
+        -> VRCond
+        delivery_port        : int                      # delivery idx for channel mapping
+        --- 
+        odor_id:             : int                      # odor index for odor identity
+        dutycycle            : int                      # odor dutycycle 
         """
 
 @schema
