@@ -434,14 +434,6 @@ class VRCond(dj.Manual):
     odor_duration            : int
     """
 
-    class Port(dj.Part):
-        definition = """
-        # vr conditions
-        -> VRCond
-        delivery_port        : int                      # delivery idx for channel mapping
-        --- 
-        dutycycle            : int                      # odor dutycycle 
-        """
 
 @schema
 class LiquidCalibration(dj.Manual):
