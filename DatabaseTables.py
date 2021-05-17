@@ -436,7 +436,7 @@ class VRCond(dj.Manual):
     class Port(dj.Part):
         definition = """
         # odor conditions
-        -> OdorCond
+        -> VRCond
         delivery_port        : int                      # delivery idx for channel mapping
         ---
         odor_id              : int                      # odor index for odor identity
