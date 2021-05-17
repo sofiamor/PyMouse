@@ -2,13 +2,15 @@
 from typing import Any, Callable
 
 # import numpy as np
+from scipy.interpolate import interpolate
+
 from Experiments.VR import *
 from Behavior import *
 from Stimuli.VROdors import *
 from utils.Generator import *
 
-# interp = lambda x: interpolate.splev(np.linspace(0, len(x), 100),
-#                                      interpolate.splrep(np.linspace(0, len(x), len(x)), x)) if len(x) > 3 else x
+interp = lambda x: interpolate.splev(np.linspace(0, len(x), 100),
+                                     interpolate.splrep(np.linspace(0, len(x), len(x)), x)) if len(x) > 3 else x
 conditions = []
 
 # define session parameters
@@ -63,7 +65,7 @@ resp_loc_y = 7
 
 # correct_loc = [(-0.25,0),(0.25,0),(0.25,0),(-0.25,0)]
 
-rand_theta = lambda: (np.random.randint(6)* np.pi) / 180
+rand_theta = lambda: interp((np.random.randint(6)* np.pi) / 180)
 conditions += factorize({**key,
                          'difficulty'          : 2,
                          'odor_id'             : [[3, 4, 1, 2]],
@@ -80,8 +82,8 @@ conditions += factorize({**key,
                          'small_radius'        : 0.05,
                          'response_duration'   : 240000})
 
-rand_theta = lambda: (np.random.randint(6)* np.pi) / 180
-init_position = lambda: np.random.randint(10, size = (1))
+rand_theta = lambda: interp((np.random.randint(6)* np.pi) / 180)
+init_position = lambda: interp(np.random.randint(10, size = (1)))
 conditions += factorize({**key,
                          'difficulty': 3,
                          'odor_id': [[1, 2, 3, 4]],
