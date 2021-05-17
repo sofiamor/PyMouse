@@ -294,6 +294,17 @@ class VRBehavior(Behavior):
             self.licked_probe = 0
         return self.licked_probe
 
+    def in_position(self):
+        # handle missed events
+        ready = self.getStart()
+        if self.ready != ready:
+            self.position_change()
+        if not self.ready:
+            ready_dur = self.ready_dur
+        else:
+            ready_dur = self.timer_ready.elapsed_time()
+        return self.ready, ready_dur, self.ready_tmst
+
     def is_ready(self):
         x, y = self.get_position()
         in_position = any(((self.resp_loc_x - x)**2 + (self.resp_loc_y - y)**2)**.5 < self.radius)
@@ -309,7 +320,7 @@ class VRBehavior(Behavior):
         else:
             return False
 
-    def is_correct(self, condition):
+    def is_correct(self):
         x, y = self.get_position()
         in_position = ((self.correct_loc[0] - x)**2 + (self.correct_loc[1] - y)**2)**.5 < self.radius
         return in_position

@@ -429,18 +429,23 @@ class VRCond(dj.Manual):
     # vr conditions
     -> Condition
     ---
-    probe=0                  : int
-    reward_amount            : int
+    x0                   : float
+    y0                   : float            
+    theta0               : int
+    radius               : int
     """
 
-    class Port(dj.Part):
+    class Odor(dj.Part):
         definition = """
         # odor conditions
         -> VRCond
         delivery_port        : int                      # delivery idx for channel mapping
         ---
+        x                    : int
+        y                    : int
         odor_id              : int                      # odor index for odor identity
-        dutycycle            : int                      # odor dutycycle
+        fun                  : float                    # odor dutycycle
+        target               : binary
         """
 
 @schema

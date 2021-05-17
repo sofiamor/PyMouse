@@ -217,6 +217,15 @@ class VRProbe(Interface):
         self.Pulser.wave_add_generic(pulse)  # 500 ms flashes
         self.pulses[probe] = self.Pulser.wave_create()
 
+
+    def position_change(self, channel=0):
+        if self.getStart():
+            self.timer_ready.start()
+            if not self.ready:
+                self.ready = True
+                self.ready_tmst = self.logger.log('CenterPort', dict(in_position=self.ready))
+                print('in position')
+
     def pulse_out(self, probe):
         self.Pulser.wave_send_once(self.pulses[probe])
 
