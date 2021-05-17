@@ -37,7 +37,7 @@ key = {
     'y_min'                 : 0,
 }
 
-
+o_conds = []
 o_conds += factorize({**key, 'probe': [1]})
 
 np.random.seed(0)
