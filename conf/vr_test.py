@@ -11,12 +11,13 @@ conditions = []
 
 # define session parameters
 session_params = {
-    'trial_selection'        : 'staircase',
+    'trial_selection'        : 'random',
     'reward'                 : 'water',
     'noresponse_intertrial'  : True,
     'resp_cond'              : 'correct_loc',
     'max_reward'             : 3000,
     'staircase_window'       : 10,
+    'bias_window'            : 5,
     'stair_up'               : 0.7,
     'stair_down'             : 0.6
 }
@@ -53,7 +54,6 @@ conditions += factorize({**key,
                         'intertrial_duration' : 0,
                         'fun'                 : 2,
                         'radius'              : 0.3,
-                        'small_radius'        : 0.05,
                         'response_duration'   : 240000})
 
 
@@ -76,7 +76,6 @@ conditions += factorize({**key,
                          'intertrial_duration' : 0,
                          'fun'                 : 3,
                          'radius'              : 0.2,
-                         'small_radius'        : 0.05,
                          'response_duration'   : 240000})
 
 rand_theta = lambda: (np.random.randint(6)* np.pi) / 180
