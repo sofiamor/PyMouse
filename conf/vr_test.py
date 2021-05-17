@@ -61,7 +61,6 @@ correct_loc = [(7,7)]
 resp_loc_x = 7
 resp_loc_y = 7
 
-# correct_loc = [(-0.25,0),(0.25,0),(0.25,0),(-0.25,0)]
 
 rand_theta = lambda: (np.random.randint(6)* np.pi) / 180
 conditions += factorize({**key,
