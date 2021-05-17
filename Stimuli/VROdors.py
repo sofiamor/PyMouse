@@ -11,7 +11,7 @@ class VROdors(Stimulus):
     def init(self):
         odor_id = self.params['odor_id']
         self.delivery_port = [1, 2, 3, 4]
-        self.beh.start_odor()
+        self.beh.present_odor(delivery_port, odor_id)
         self.isrunning = True
         self.timer.start()
 
