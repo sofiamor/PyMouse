@@ -35,8 +35,10 @@ key = {
     'x_min'                 : 0,
     'y_max'                 : 10,
     'y_min'                 : 0,
-    'probe'                 : 1
 }
+
+
+o_conds += factorize({**key, 'probe': [1]})
 
 np.random.seed(0)
 conditions += factorize({**key,
