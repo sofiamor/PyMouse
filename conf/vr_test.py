@@ -2,8 +2,7 @@
 from typing import Any, Callable
 
 # import numpy as np
-from scipy.interpolate import interpolate
-
+from scipy import interpolate
 from Experiments.VR import *
 from Behavior import *
 from Stimuli.VROdors import *
