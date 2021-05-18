@@ -50,6 +50,9 @@ conditions += factorize({**key,
                         'theta0'              : 0,
                         'x0'                  : 5,
                         'y0'                  : 5,
+                        'correct_loc'         : (10, 10),
+                        'resp_loc_x'          : [[0, 10, 10, 0]],
+                        'resp_loc_y'          : [[0, 0, 10, 10]],
                         'trial_duration'      : 300000,
                         'intertrial_duration' : 0,
                         'fun'                 : 2,
@@ -57,9 +60,7 @@ conditions += factorize({**key,
                         'response_duration'   : 240000})
 
 
-correct_loc = [(7,7)]
-resp_loc_x = 7
-resp_loc_y = 7
+
 
 
 rand_theta = lambda: (np.random.randint(6)* np.pi) / 180
@@ -73,6 +74,9 @@ conditions += factorize({**key,
                          'y0'                  : 5,
                          'reward_amount'       : 8,
                          'trial_duration'      : 300000,
+                         'correct_loc'         : (10, 10),
+                         'resp_loc_x'          : [[0, 10, 10, 0]],
+                         'resp_loc_y'          : [[0, 0, 10, 10]],
                          'intertrial_duration' : 0,
                          'fun'                 : 3,
                          'radius'              : 0.2,
@@ -88,7 +92,9 @@ conditions += factorize({**key,
                          'theta0': [[rand_theta()]],
                          'x0': [[init_position()]],
                          'y0': [[init_position()]],
-                         'reward_amount': 8,
+                         'correct_loc'         : (10, 10),
+                         'resp_loc_x'          : [[0, 10, 10, 0]],
+                         'resp_loc_y'          : [[0, 0, 10, 10]],                         'reward_amount': 8,
                          'trial_duration': 300000,
                          'intertrial_duration': 0,
                          'fun': 3,
