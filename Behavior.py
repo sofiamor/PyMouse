@@ -279,11 +279,8 @@ class VRBehavior(Behavior):
     def prepare(self, condition):
         self.reward_amount = self.interface.calc_pulse_dur(condition['reward_amount'])
         self.vr = Ball(condition['x_max'], condition['y_max'], condition['x0'], condition['y0'], condition['correct_loc'], condition['radius'], condition['theta0'])
-        self.loc_x0 = condition['loc_x0']
-        self.loc_y0 = condition['loc_y0']
-        self.theta0 = condition['theta0']
-        self.correct_loc = condition['correct_loc']
-        self.radius = condition['radius']
+        self.curr_cond = condition
+
 
     def is_licking(self, since=0):
         licked_probe, tmst = self.interface.get_last_lick()
@@ -294,20 +291,9 @@ class VRBehavior(Behavior):
             self.licked_probe = 0
         return self.licked_probe
 
-    def in_position(self):
-        # handle missed events
-        ready = self.getStart()
-        if self.ready != ready:
-            self.position_change()
-        if not self.ready:
-            ready_dur = self.ready_dur
-        else:
-            ready_dur = self.timer_ready.elapsed_time()
-        return self.ready, ready_dur, self.ready_tmst
-
     def is_ready(self):
         x, y = self.get_position()
-        in_position = any(((self.resp_loc_x - x)**2 + (self.resp_loc_y - y)**2)**.5 < self.radius)
+        in_position = any(((self.curr_cond['resp_loc_x'] - x)**2 + (self.curr_cond['resp_loc_y'] - y)**2)**.5 < self.curr_cond['radius'])
         return in_position
 
     def is_running(self):
@@ -315,7 +301,7 @@ class VRBehavior(Behavior):
 
     def is_correct(self):
         x, y = self.get_position()
-        in_position = ((self.correct_loc[0] - x)**2 + (self.correct_loc[1] - y)**2)**.5 < self.radius
+        in_position = ((self.curr_cond['correct_loc'[0]] - x)**2 + (self.curr_cond['correct_loc'[1] - y)**2)**.5 < self.radius
         return in_position
 
     def get_position(self):
