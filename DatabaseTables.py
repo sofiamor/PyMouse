@@ -445,7 +445,7 @@ class VRCond(dj.Manual):
         y                    : int
         odor_id              : int                      # odor index for odor identity
         fun                  : float                    # odor dutycycle
-        target               : binary 
+        target               : tinyint
         """
 
 @schema
