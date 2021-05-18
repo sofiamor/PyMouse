@@ -205,11 +205,11 @@ class VRProbe(Interface):
             self.pwm[idx] = self.GPIO.PWM(channel, self.frequency)
             self.pwm[idx].ChangeFrequency(self.frequency)
             self.pwm[idx].start(dutycycle)
-        print(dutycycle)
 
     def update_odor(self, dutycycles):  # for 2D olfactory setup
         for idx, dutycycle in enumerate(dutycycles):
             self.pwm[idx].ChangeDutyCycle(dutycycle)
+        print(dutycycle)
 
     def create_pulse(self, probe, duration):
         if probe in self.pulses:  self.Pulser.wave_delete(self.pulses[probe])
