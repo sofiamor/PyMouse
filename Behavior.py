@@ -278,7 +278,7 @@ class VRBehavior(Behavior):
 
     def prepare(self, condition):
         self.reward_amount = self.interface.calc_pulse_dur(condition['reward_amount'])
-        self.vr = Ball(condition['x_max'], condition['y_max'], condition['x0'], condition['y0'], condition['correct_loc'], condition['radius'], condition['theta0'])
+        self.vr = Ball(condition['x_max'], condition['y_max'], condition['x0'], condition['y0'], condition['radius'], condition['theta0'])
         self.curr_cond = condition
 
 
