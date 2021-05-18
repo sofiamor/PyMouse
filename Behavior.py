@@ -301,7 +301,7 @@ class VRBehavior(Behavior):
 
     def is_correct(self):
         x, y = self.get_position()
-        in_position = ((self.curr_cond['correct_loc'[0]] - x)**2 + (self.curr_cond['correct_loc'[1] - y)**2)**.5 < self.curr_cond['radius']
+        in_position = ((self.curr_cond['correct_loc'[0]] - x)**2 + (self.curr_cond['correct_loc'[1]] - y)**2)**.5 < self.curr_cond['radius']
         return in_position
 
     def get_position(self):
