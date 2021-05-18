@@ -313,8 +313,8 @@ class VRBehavior(Behavior):
         self.logger.log('LiquidDelivery', dict(probe=self.licked_probe,
                                                reward_amount=self.reward_amount[self.licked_probe]))
 
-    def update_odor(self, delivery_port, odor_id):
-        self.interface.update_odor(delivery_port, odor_id)
+    def update_odor(self, dutycycle):
+        self.interface.update_odor(dutycycle)
 
     def cleanup(self):
         self.mouse1.close()
