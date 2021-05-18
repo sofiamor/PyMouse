@@ -268,7 +268,7 @@ class VRBehavior(Behavior):
         self.previous_y = 0
         self.resp_loc_x = None
         self.resp_loc_y = None
-        self.move_thres = 0.05
+        self.speed_thr = 0.025 # in m/sec
         self.interface = VRProbe(logger)
         self.cond_tables = ['VRCond']
         super(VRBehavior, self).__init__(logger, params)
@@ -311,14 +311,7 @@ class VRBehavior(Behavior):
         return in_position
 
     def is_running(self):
-        x, y = self.get_position()
-        Dx = self.previous_x - x
-        Dy = self.previous_y - y
-        move_thr = self.move_thres
-        if Dx and Dy > move_thr:
-            return True
-        else:
-            return False
+        return self.vr.getSpeed() > self.speed_thr
 
     def is_correct(self):
         x, y = self.get_position()

@@ -242,6 +242,7 @@ class Ball(Interface):
         self.mouse2 = MouseReader("/dev/input/by-path/platform-fd500000.pcie-pci-0000:01:00.0-usb-0:1.4:1.0-mouse")
         self.loc_x = x0
         self.loc_y = y0
+        self.speed = 0
         self.theta = theta0
         self.xmx = xmx
         self.ymx = ymx
@@ -282,13 +283,20 @@ class Ball(Interface):
             x = -xm*np.sin(self.theta) - ym*np.cos(self.theta)
             y = -xm*np.cos(self.theta) + ym*np.sin(self.theta)
 
-            self.loc_x = min(self.loc_x + np.double(x), self.xmx)
-            self.loc_y = min(self.loc_y + np.double(y), self.ymx)
-            self.timestamp = max(tmst1, tmst2)
+            loc_x = min(self.loc_x + np.double(x), self.xmx)
+            loc_y = min(self.loc_y + np.double(y), self.ymx)
+            timestamp = max(tmst1, tmst2)
+            self.speed = np.sqrt((loc_x - self.loc_x)**2 + (loc_y - self.loc_y)**2)/(timestamp - self.timestamp)
+            self.loc_x = loc_x
+            self.loc_y = loc_y
+            self.timestamp = timestamp
             time.sleep(.1)
 
     def getPosition(self):
         return self.loc_x, self.loc_y, self.theta,  self.timestamp
+
+    def getSpeed(self):
+        return self.speed
 
     def quit(self):
         self.thread_end.set()
