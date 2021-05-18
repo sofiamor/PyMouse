@@ -205,6 +205,7 @@ class VRProbe(Interface):
             self.pwm[idx] = self.GPIO.PWM(channel, self.frequency)
             self.pwm[idx].ChangeFrequency(self.frequency)
             self.pwm[idx].start(dutycycle)
+        print(dutycycle)
 
     def update_odor(self, dutycycles):  # for 2D olfactory setup
         for idx, dutycycle in enumerate(dutycycles):
