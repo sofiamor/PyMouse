@@ -313,10 +313,6 @@ class VRBehavior(Behavior):
         self.logger.log('LiquidDelivery', dict(probe=self.licked_probe,
                                                reward_amount=self.reward_amount[self.licked_probe]))
 
-    def present_odor(self, delivery_port, odor_id, dutycycle):
-        self.interface.present_odor(self, delivery_port, odor_id, dutycycle)
-        self.logger.log('StimOnset')
-
     def update_odor(self, delivery_port, dutycycle):
         self.interface.update_odor(delivery_port, dutycycle)
 
