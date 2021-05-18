@@ -9,7 +9,7 @@ class VROdors(Stimulus):
         self._get_new_cond()
 
     def init(self):
-        odor_id = self.params['odor_id']
+        odor_id = self.curr_cond['odor_id']
         delivery_port = self.curr_cond['delivery_port']
         self.beh.present_odor(delivery_port, odor_id)
         self.isrunning = True
