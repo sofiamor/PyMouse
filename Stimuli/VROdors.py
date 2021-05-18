@@ -9,7 +9,7 @@ class VROdors(Stimulus):
         self._get_new_cond()
 
     def init(self, period=None):
-        self.beh.start_odor(0)
+        self.beh.start_odor()
         self.logger.log('StimOnset', dict(period=period))
         self.isrunning = True
         self.timer.start()

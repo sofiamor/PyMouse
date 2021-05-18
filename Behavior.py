@@ -281,7 +281,6 @@ class VRBehavior(Behavior):
         self.vr = Ball(condition['x_max'], condition['y_max'], condition['x0'], condition['y0'], condition['radius'], condition['theta0'])
         self.curr_cond = condition
 
-
     def is_licking(self, since=0):
         licked_probe, tmst = self.interface.get_last_lick()
         if tmst >= since and licked_probe:
@@ -312,6 +311,9 @@ class VRBehavior(Behavior):
         self.update_history(self.licked_probe, self.reward_amount[self.licked_probe])
         self.logger.log('LiquidDelivery', dict(probe=self.licked_probe,
                                                reward_amount=self.reward_amount[self.licked_probe]))
+
+    def start_odor(self):
+        self.interface.update_odor(0)
 
     def update_odor(self, dutycycle):
         self.interface.update_odor(dutycycle)
