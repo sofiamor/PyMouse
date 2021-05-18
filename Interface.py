@@ -208,7 +208,7 @@ class VRProbe(Interface):
 
     def update_odor(self, dutycycles):  # for 2D olfactory setup
         for idx, dutycycle in enumerate(dutycycles):
-            self.pwm[idx].ChangeDutyCycle(dutycycle)
+            self.pwm[idx].ChangeDutyCycle(100 - dutycycle)
             print(dutycycle)
 
     def create_pulse(self, probe, duration):
