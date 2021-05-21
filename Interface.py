@@ -188,6 +188,7 @@ class VRProbe(Interface):
                          'liquid': {1: 22},
                          'lick': {1: 17}}
         self.frequency = 10
+        self.dutycycles = 50
         self.GPIO.setup(list(self.channels['lick'].values()),
                         self.GPIO.IN, pull_up_down=GPIO.PUD_DOWN)
         self.GPIO.setup(list(self.channels['odor'].values()), self.GPIO.OUT, initial=self.GPIO.LOW)
@@ -206,7 +207,7 @@ class VRProbe(Interface):
             self.pwm[idx].ChangeFrequency(self.frequency)
             self.pwm[idx].start(dutycycle)
 
-    def update_odor(self, dutycycles = 50):  # for 2D olfactory setup
+    def update_odor(self, dutycycles):  # for 2D olfactory setup
         for idx, dutycycle in enumerate(dutycycles):
             self.pwm[idx].ChangeDutyCycle(dutycycle)
 

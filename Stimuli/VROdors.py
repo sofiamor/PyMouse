@@ -24,8 +24,9 @@ class VROdors(Stimulus):
 
     def present(self):
         x, y = self.beh.get_position()
-        odor_dutycycle = self.loc2odor(x, y)
-        self.beh.update_odor(odor_dutycycle[self.curr_cond['delivery_port']-1])
+        odor_dutycycles = self.loc2odor(x, y)
+        print(self.curr_cond['delivery_port'], odor_dutycycles, odor_dutycycles[self.curr_cond['delivery_port']-1])
+        self.beh.update_odor(odor_dutycycles[self.curr_cond['delivery_port']-1])
         print(x, y)
 
     def stop(self):
