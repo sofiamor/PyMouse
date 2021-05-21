@@ -313,7 +313,7 @@ class VRBehavior(Behavior):
                                                reward_amount=self.reward_amount[self.licked_probe]))
 
     def start_odor(self):
-        self.interface.update_odor(0)
+        self.interface.start_odor(0)
 
     def update_odor(self, dutycycle):
         self.interface.update_odor(dutycycle)
