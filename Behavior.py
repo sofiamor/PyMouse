@@ -299,7 +299,7 @@ class VRBehavior(Behavior):
         return self.vr.getSpeed() > self.speed_thr
 
     def is_correct(self):
-        x, y = self.get_position()
+        x, y, theta, tmst = self.get_position()
         in_position = ((self.curr_cond['correct_loc'[0]] - x)**2 + (self.curr_cond['correct_loc'[1]] - y)**2)**.5 < self.curr_cond['radius']
         return in_position
 

@@ -297,7 +297,7 @@ class Ball(Interface):
             time.sleep(.1)
 
     def getPosition(self):
-        return self.loc_x, self.loc_y #, self.theta,  self.timestamp
+        return self.loc_x, self.loc_y, self.theta,  self.timestamp
 
     def getSpeed(self):
         return self.speed
