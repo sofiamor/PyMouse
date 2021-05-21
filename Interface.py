@@ -192,11 +192,14 @@ class VRProbe(Interface):
         self.GPIO.setup(list(self.channels['lick'].values()),
                         self.GPIO.IN, pull_up_down=GPIO.PUD_DOWN)
         self.GPIO.setup(list(self.channels['odor'].values()), self.GPIO.OUT, initial=self.GPIO.LOW)
+        self.pwm = self.GPIO.PWM(6, self.frequency)
+        print('pwm works')
         self.GPIO.add_event_detect(self.channels['lick'][1], self.GPIO.RISING, callback=self.probe1_licked, bouncetime=100)
         self.Pulser = pigpio.pi()
         self.PulseGen = pigpio.pulse
         self.Pulser.set_mode(self.channels['liquid'][1], pigpio.OUTPUT)
         self.pulses = dict()
+        self.pwm = dict()
 
     def give_liquid(self, probe):
         self.thread.submit(self.pulse_out, probe)
