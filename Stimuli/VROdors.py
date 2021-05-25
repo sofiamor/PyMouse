@@ -23,7 +23,7 @@ class VROdors(Stimulus):
         return (1 - ((a + b) / 2) ** .5) ** fun * 100
 
     def present(self):
-        x, y = self.beh.get_position()
+        x, y, theta, tmst = self.beh.get_position()
         odor_dutycycles = self.loc2odor(x, y)
         print(self.curr_cond['delivery_port'], odor_dutycycles[self.curr_cond['delivery_port']] - 1)
         self.beh.update_odor(odor_dutycycles[self.curr_cond['delivery_port']] - 1)
