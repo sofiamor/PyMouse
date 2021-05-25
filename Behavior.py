@@ -291,7 +291,7 @@ class VRBehavior(Behavior):
         return self.licked_probe
 
     def is_ready(self):
-        x, y = self.get_position()
+        x, y, theta, tmst = self.get_position()
         in_position = any(((self.curr_cond['resp_loc_x'] - x)**2 + (self.curr_cond['resp_loc_y'] - y)**2)**.5 < self.curr_cond['radius'])
         return in_position
 
