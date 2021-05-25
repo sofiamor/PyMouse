@@ -304,7 +304,7 @@ class VRBehavior(Behavior):
         return in_position
 
     def get_position(self):
-        return self.vr.getPosition(self.loc_x, self.loc_y)
+        return self.vr.getPosition()
 
     def reward(self):
         self.interface.give_liquid(self.licked_probe)
