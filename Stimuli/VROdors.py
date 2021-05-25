@@ -22,7 +22,7 @@ class VROdors(Stimulus):
         b = (np.abs(np.array([0, ymx, ymx, 0]) - y) / ymx) ** 2
         return (1 - ((a + b) / 2) ** .5) ** fun * 100
 
-    def present(self):
+    def present(self, noself=None):
         x, y, theta, tmst = self.beh.get_position()
         odor_dutycycles = self.loc2odor(x,y)
         print(self.curr_cond['delivery_port'], odor_dutycycles,self.curr_cond['delivery_port'], odor_dutycycles )
