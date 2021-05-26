@@ -248,7 +248,7 @@ class Ball(Interface):
         self.loc_x = x0
         self.loc_y = y0
         self.speed = 0
-        self.theta = theta0/np.pi*180
+        self.theta = theta0
         self.xmx = xmx
         self.ymx = ymx
         self.timestamp = 0
