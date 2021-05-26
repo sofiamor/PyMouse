@@ -434,7 +434,7 @@ class VRCond(dj.Manual):
     ---
     x0                   : float
     y0                   : float            
-    theta0               : int
+    theta0               : float
     radius               : int
     """
 
