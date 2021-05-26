@@ -292,7 +292,7 @@ class VRBehavior(Behavior):
 
     def is_ready(self):
         x, y, theta, tmst = self.get_position()
-        in_position = any(((self.curr_cond['resp_loc_x'] - x)**2 + (self.curr_cond['resp_loc_y'] - y)**2)**.5 < self.curr_cond['radius'])
+        in_position = any(((np.array(self.curr_cond['resp_loc_x']) - x)**2 + (np.array(self.curr_cond['resp_loc_y']) - y)**2)**.5 < self.curr_cond['radius'])
         return in_position
 
     def is_running(self):
