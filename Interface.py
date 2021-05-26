@@ -187,7 +187,7 @@ class VRProbe(Interface):
         self.channels = {'odor': {1: 6, 2: 13, 3: 19, 4: 26},
                          'liquid': {1: 22},
                          'lick': {1: 17}}
-        self.frequency = 10
+        self.frequency = 100
         self.dutycycles = 50
         self.GPIO.setup(list(self.channels['lick'].values()),
                         self.GPIO.IN, pull_up_down=GPIO.PUD_DOWN)
