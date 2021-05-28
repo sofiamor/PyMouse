@@ -298,6 +298,7 @@ class Ball(Interface):
 
     def getPosition(self):
         return self.loc_x, self.loc_y, self.theta,  self.timestamp
+        print(theta)
 
     def getSpeed(self):
         return self.speed
@@ -321,8 +322,8 @@ class MouseReader:
         while not self.thread_end.is_set():
             data = self.file.read(3)  # Reads the 3 bytes
             x, y = struct.unpack("2b", data[1:])
-            print(x, y)
             queue.put({'x': x/dpm, 'y': y/dpm, 'timestamp': time.time()})
+            print(x, y)
 
     def close(self):
         self.thread_end.set()
