@@ -184,10 +184,10 @@ class VRProbe(Interface):
         self.setup = int(''.join(list(filter(str.isdigit, socket.gethostname()))))
         self.GPIO = GPIO
         self.GPIO.setmode(self.GPIO.BCM)
+        self.frequency = 100
         self.channels = {'odor': {1: 6, 2: 13, 3: 19, 4: 26},
                          'liquid': {1: 22},
                          'lick': {1: 17}}
-        self.frequency = 100
         self.dutycycles = 50
         self.GPIO.setup(list(self.channels['lick'].values()),
                         self.GPIO.IN, pull_up_down=GPIO.PUD_DOWN)
@@ -281,7 +281,7 @@ class Ball(Interface):
             xm = y2 * np.cos(self.phi_y1) - y1 * np.sin(self.phi_y1)
             ym = y2 * np.sin(self.phi_y1) + y1 * np.cos(self.phi_y1)
 
-            self.theta += ((theta_step2 + theta_step1)/2) * 180/np.pi
+            self.theta += (theta_step2 + theta_step1)/2
             self.theta = np.mod(self.theta, 2*np.pi)
 
             x = -xm*np.sin(self.theta) - ym*np.cos(self.theta)
