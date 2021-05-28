@@ -294,7 +294,7 @@ class Ball(Interface):
             self.loc_x = loc_x
             self.loc_y = loc_y
             self.timestamp = timestamp
-            print(self.loc_x, self.loc_y, self.theta)
+            print('X:%f, Y:%f, theta:%f' % self.loc_x, self.loc_y, self.theta/np.pi*180)
             time.sleep(.1)
 
     def getPosition(self):
