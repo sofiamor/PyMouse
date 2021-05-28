@@ -281,7 +281,7 @@ class Ball(Interface):
             xm = y2 * np.cos(self.phi_y1) - y1 * np.sin(self.phi_y1)
             ym = y2 * np.sin(self.phi_y1) + y1 * np.cos(self.phi_y1)
 
-            self.theta += ((theta_step2 + theta_step1)/2) * 180/np.pi
+            self.theta += (theta_step2 + theta_step1)/2
             self.theta = np.mod(self.theta, 2*np.pi)
 
             x = -xm*np.sin(self.theta) - ym*np.cos(self.theta)
