@@ -321,6 +321,7 @@ class MouseReader:
         while not self.thread_end.is_set():
             data = self.file.read(3)  # Reads the 3 bytes
             x, y = struct.unpack("2b", data[1:])
+            print(x, y)
             queue.put({'x': x/dpm, 'y': y/dpm, 'timestamp': time.time()})
 
     def close(self):
