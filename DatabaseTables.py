@@ -435,7 +435,7 @@ class VRCond(dj.Manual):
     x0                   : float
     y0                   : float            
     theta0               : float
-    radius               : int
+    radius               : float
     """
 
     class Odor(dj.Part):
