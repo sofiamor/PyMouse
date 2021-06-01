@@ -252,6 +252,7 @@ class Ball(Interface):
         self.mouse2 = MouseReader("/dev/input/by-path/platform-fd500000.pcie-pci-0000:01:00.0-usb-0:1.2:1.0-mouse")
         self.speed = 0
         self.timestamp = 0
+        self.setPosition()
         self.phi_z1 = 1  # angle of z axis (rotation)
         self.phi_z2 = self.phi_z1
         self.phi_y1 = np.pi - 0.13  # angle of y1 axis (mouse1) .6
