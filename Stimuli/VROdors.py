@@ -28,4 +28,5 @@ class VROdors(Stimulus):
         self.beh.update_odor(odor_dutycycles[np.array(self.curr_cond['delivery_port']) - 1])
 
     def stop(self):
+        self.beh.cleanup()
         self.isrunning = False

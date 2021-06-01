@@ -9,17 +9,20 @@ class State(StateClass):
             self.__dict__.update(parent.__dict__)
 
     def setup(self, logger, BehaviorClass, StimulusClass, session_params, conditions):
+        print('setting up experiment')
         self.logger = logger
         self.logger.log_session(session_params, 'VR')
-
+        print('initializing Behavior & Stimulus')
         # Initialize params & Behavior/Stimulus objects
         self.beh = BehaviorClass(self.logger, session_params)
         self.stim = StimulusClass(self.logger, session_params, conditions, self.beh)
         self.params = session_params
+        print('logging conditions')
         self.logger.log_conditions(conditions, self.stim.get_cond_tables() + self.beh.get_cond_tables())
+        print('Done!')
         exitState = Exit(self)
         self.StateMachine = StateMachine(Prepare(self), exitState)
-
+        print('Initializing states')
         # Initialize states
         global states
         states = {
