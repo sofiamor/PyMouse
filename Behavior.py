@@ -289,6 +289,7 @@ class VRBehavior(Behavior):
         else:
             self.licked_probe = 0
         return self.licked_probe
+        print('is fkn licking')
 
     def is_ready(self):
         x, y, theta, tmst = self.get_position()
@@ -302,6 +303,7 @@ class VRBehavior(Behavior):
         x, y, theta, tmst = self.get_position()
         in_position = ((self.curr_cond['correct_loc'[0]] - x)**2 + (self.curr_cond['correct_loc'[1]] - y)**2)**.5 < self.curr_cond['radius']
         return in_position
+        print('is fkn correct')
 
     def get_position(self):
         return self.vr.getPosition()
@@ -311,6 +313,7 @@ class VRBehavior(Behavior):
         self.update_history(self.licked_probe, self.reward_amount[self.licked_probe])
         self.logger.log('LiquidDelivery', dict(probe=self.licked_probe,
                                                reward_amount=self.reward_amount[self.licked_probe]))
+        print('is fkn rewarded')
 
     def start_odor(self):
         self.interface.start_odor(0)
