@@ -323,7 +323,7 @@ class VRBehavior(Behavior):
 
     def cleanup(self):
         self.vr.quit()
-        self.interface.cleanup()
+        self.interface.clean_odor_pulses()
 
 
 class DummyProbe(Behavior):

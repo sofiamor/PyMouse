@@ -233,6 +233,10 @@ class VRProbe(Interface):
     def pulse_out(self, probe):
         self.Pulser.wave_send_once(self.pulses[probe])
 
+    def clean_odor_pulses(self):
+        for idx, channel in enumerate(list(self.channels['odor'].values())):
+            self.pwm[idx].stop()
+
     def cleanup(self):
         for idx, channel in enumerate(list(self.channels['odor'].values())):
             self.pwm[idx].stop()
