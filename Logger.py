@@ -139,7 +139,9 @@ class Logger:
     def ping(self, period=5000):
         if self.ping_timer.elapsed_time() >= period:  # occasionally update control table
             self.ping_timer.start()
-            self.update_setup_info( )
+            self.update_setup_info({'last_ping': str(datetime.now().strftime("%Y-%m-%d %H:%M:%S")),
+                                    'queue_size': self.queue.qsize(), 'trials': self.curr_trial,
+                                    'total_liquid': self.total_reward, 'state': self.curr_state})
 
     def cleanup(self):
         while not self.queue.empty(): print('Waiting for empty queue... qsize: %d' % self.queue.qsize()); time.sleep(2)
