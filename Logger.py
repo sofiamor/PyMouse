@@ -39,11 +39,13 @@ class Logger:
         while not self.thread_end.is_set():
             if self.queue.empty():  time.sleep(.5); continue
             item = self.queue.get()
+            print(item)
             ignore, skip = (False, False) if item.replace else (True, True)
             table = self.rgetattr(self.schemata[item.schema], item.table)
             self.thread_lock.acquire()
             table.insert1(item.tuple, ignore_extra_fields=ignore, skip_duplicates=skip, replace=item.replace)
             self.thread_lock.release()
+            print('Inserted!')
 
     def getter(self):
         while not self.thread_end.is_set():
