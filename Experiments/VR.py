@@ -35,16 +35,19 @@ class State(StateClass):
             'Exit'         : exitState}
 
     def entry(self):  # updates stateMachine from Database entry - override for timing critical transitions
+        print(type(self).__name__)
         self.logger.curr_state = type(self).__name__
         self.period_start = self.logger.log('StateOnset', {'state': type(self).__name__})
         self.timer.start()
 
     def run(self):
+        print('Running state')
         self.StateMachine.run()
 
 
 class Prepare(State):
     def run(self):
+        print('Preparing Experiment')
         self.stim.setup()  # prepare stimulus
 
     def next(self):
@@ -53,9 +56,11 @@ class Prepare(State):
 
 class PreTrial(State):
     def entry(self):
+        print('Pretrial')
         self.logger.ping()
         self.stim.prepare()
         self.beh.prepare(self.stim.curr_cond)
+        print('Logging init_trial')
         self.logger.init_trial(self.stim.curr_cond['cond_hash'])
         super().entry()
         if not self.stim.curr_cond: self.logger.update_setup_info({'status': 'stop'})

@@ -234,7 +234,7 @@ class VRProbe(Interface):
         self.Pulser.wave_send_once(self.pulses[probe])
 
     def cleanup(self):
-        self.pwm[self.channels['air']].stop()
+        self.pwm[self.channels['odor']].stop()
         self.GPIO.remove_event_detect(self.channels['lick'][1])
         self.GPIO.cleanup()
         self.Pulser.wave_clear()
