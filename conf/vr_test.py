@@ -47,13 +47,13 @@ conditions += factorize({**key,
                         'theta0'              : 0,
                         'x0'                  : 5,
                         'y0'                  : 5,
-                        'correct_loc'         : (10, 10),
+                        'correct_loc'         : (5, 7),
                         'resp_loc_x'          : [[0, 10, 10, 0]],
                         'resp_loc_y'          : [[0, 0, 10, 10]],
                         'trial_duration'      : 300000,
                         'intertrial_duration' : 0,
                         'fun'                 : 2,
-                        'radius'              : 0.3,
+                        'radius'              : 0.5,
                         'response_duration'   : 240000})
 
 
