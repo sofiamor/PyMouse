@@ -39,7 +39,7 @@ class Logger:
         while not self.thread_end.is_set():
             if self.queue.empty():  time.sleep(.5); continue
             item = self.queue.get()
-            print(item)
+            # print(item)
             ignore, skip = (False, False) if item.replace else (True, True)
             table = self.rgetattr(self.schemata[item.schema], item.table)
             self.thread_lock.acquire()
