@@ -319,8 +319,7 @@ class VRBehavior(Behavior):
         self.interface.update_odor(dutycycle)
 
     def cleanup(self):
-        self.mouse1.close()
-        self.mouse2.close()
+        self.vr.quit()
         self.interface.cleanup()
 
 

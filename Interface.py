@@ -243,6 +243,7 @@ class VRProbe(Interface):
 
 class Ball(Interface):
     def __init__(self, xmx=1, ymx=1, x0=0, y0=0, ball_radius=0.125, theta0=0):
+        self.quit()
         self.mouse1 = MouseReader("/dev/input/by-path/platform-fd500000.pcie-pci-0000:01:00.0-usb-0:1.1:1.0-mouse")
         self.mouse2 = MouseReader("/dev/input/by-path/platform-fd500000.pcie-pci-0000:01:00.0-usb-0:1.2:1.0-mouse")
         self.loc_x = x0
@@ -305,9 +306,12 @@ class Ball(Interface):
         return self.speed
 
     def quit(self):
-        self.thread_end.set()
-        self.mouse1.close()
-        self.mouse2.close()
+        try:
+            self.thread_end.set()
+            self.mouse1.close()
+            self.mouse2.close()
+        except:
+            print('Ball not running!')
 
 
 class MouseReader:
