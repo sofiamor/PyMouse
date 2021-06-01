@@ -318,6 +318,9 @@ class VRBehavior(Behavior):
     def start_odor(self):
         self.interface.start_odor(0)
 
+    def stop_odor(self):
+        self.interface.clean_odor_pulses()
+
     def update_odor(self, dutycycle):
         self.interface.update_odor(dutycycle)
 
