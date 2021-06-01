@@ -45,7 +45,7 @@ class Logger:
             self.thread_lock.acquire()
             table.insert1(item.tuple, ignore_extra_fields=ignore, skip_duplicates=skip, replace=item.replace)
             self.thread_lock.release()
-            print('Inserted!')
+            # print('Inserted!')
 
     def getter(self):
         while not self.thread_end.is_set():
