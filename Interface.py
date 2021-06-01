@@ -246,16 +246,11 @@ class VRProbe(Interface):
 
 
 class Ball(Interface):
-    def __init__(self, xmx=1, ymx=1, x0=0, y0=0, ball_radius=0.125, theta0=0):
+    def __init__(self,  ball_radius=0.125):
         self.quit()
         self.mouse1 = MouseReader("/dev/input/by-path/platform-fd500000.pcie-pci-0000:01:00.0-usb-0:1.1:1.0-mouse")
         self.mouse2 = MouseReader("/dev/input/by-path/platform-fd500000.pcie-pci-0000:01:00.0-usb-0:1.2:1.0-mouse")
-        self.loc_x = x0
-        self.loc_y = y0
         self.speed = 0
-        self.theta = theta0
-        self.xmx = xmx
-        self.ymx = ymx
         self.timestamp = 0
         self.phi_z1 = 1  # angle of z axis (rotation)
         self.phi_z2 = self.phi_z1
@@ -301,6 +296,13 @@ class Ball(Interface):
             self.timestamp = timestamp
             print(self.loc_x, self.loc_y, self.theta/np.pi*180)
             time.sleep(.1)
+
+    def setPosition(self, xmx=1, ymx=1, x0=0, y0=0, theta0=0):
+        self.loc_x = x0
+        self.loc_y = y0
+        self.theta = theta0
+        self.xmx = xmx
+        self.ymx = ymx
 
     def getPosition(self):
         return self.loc_x, self.loc_y, self.theta,  self.timestamp

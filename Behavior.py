@@ -270,6 +270,7 @@ class VRBehavior(Behavior):
         self.resp_loc_y = None
         self.speed_thr = 0.025 # in m/sec
         self.interface = VRProbe(logger)
+        self.vr = Ball()
         self.cond_tables = ['VRCond']
         super(VRBehavior, self).__init__(logger, params)
 
@@ -278,7 +279,7 @@ class VRBehavior(Behavior):
 
     def prepare(self, condition):
         self.reward_amount = self.interface.calc_pulse_dur(condition['reward_amount'])
-        self.vr = Ball(condition['x_max'], condition['y_max'], condition['x0'], condition['y0'], condition['radius'], condition['theta0'])
+        self.vr.setPosition(condition['x_max'], condition['y_max'], condition['x0'], condition['y0'], condition['theta0'])
         self.curr_cond = condition
 
     def is_licking(self, since=0):
@@ -289,7 +290,6 @@ class VRBehavior(Behavior):
         else:
             self.licked_probe = 0
         return self.licked_probe
-        print('is fkn licking')
 
     def is_ready(self):
         x, y, theta, tmst = self.get_position()
@@ -323,7 +323,7 @@ class VRBehavior(Behavior):
 
     def cleanup(self):
         self.vr.quit()
-        self.interface.clean_odor_pulses()
+        self.interface.cleanup()
 
 
 class DummyProbe(Behavior):
