@@ -301,13 +301,7 @@ class VRBehavior(Behavior):
 
     def is_correct(self):
         x, y, theta, tmst = self.get_position()
-        print(self.curr_cond['correct_loc'[0]])
-        print(self.curr_cond['correct_loc'[1]])
-        print(self.curr_cond['radius'])
-        print(x)
-        print(y)
-        print(theta)
-        in_position = ((self.curr_cond['correct_loc'[0]] - x)**2 + (self.curr_cond['correct_loc'[1]] - y)**2)**.5 < self.curr_cond['radius']
+        in_position = ((self.curr_cond['correct_loc'][0] - x)**2 + (self.curr_cond['correct_loc'][1] - y)**2)**.5 < self.curr_cond['radius']
         print('is fkn correct')
         return in_position
 
