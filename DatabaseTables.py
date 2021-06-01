@@ -444,8 +444,8 @@ class VRCond(dj.Manual):
         -> VRCond
         delivery_port        : int                      # delivery idx for channel mapping
         ---
-        x                    : int
-        y                    : int
+        x                    : tinyint
+        y                    : tinyint
         odor_id              : int                      # odor index for odor identity
         fun                  : float                    # odor dutycycle
         target               : tinyint
