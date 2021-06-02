@@ -446,6 +446,8 @@ class VRCond(dj.Manual):
         ---
         x                    : tinyint
         y                    : tinyint
+        x_max                : tinyint
+        y_max                : tinyint
         odor_id              : int                      # odor index for odor identity
         fun                  : float                    # odor dutycycle
         target               : tinyint
