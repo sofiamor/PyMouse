@@ -249,7 +249,6 @@ class VRProbe(Interface):
 class Ball(Interface):
     def __init__(self,  ball_radius=0.125):
         self.quit()
-        self.filename = datetime.now().strftime("%Y-%m-%d-%H-%M-%S") + ".h5"
         self.mouse1 = MouseReader("/dev/input/by-path/platform-fd500000.pcie-pci-0000:01:00.0-usb-0:1.1:1.0-mouse")
         self.mouse2 = MouseReader("/dev/input/by-path/platform-fd500000.pcie-pci-0000:01:00.0-usb-0:1.2:1.0-mouse")
         self.speed = 0
@@ -367,6 +366,7 @@ class Writer(object):
         self.datasets = dict()
         self.thread_end = threading.Event()
         self.thread_runner = threading.Thread(target=self.dequeue)  # max insertion rate of 10 events/sec
+        self.filename = datetime.now().strftime("%Y-%m-%d-%H-%M-%S") + ".h5"
         self.thread_runner.start()
 
     def createDataset(self, dataset, shape, dtype=np.int16, compression="gzip", chunk_len=1):
