@@ -4,7 +4,7 @@ import numpy as np
 from utils.Timer import *
 from concurrent.futures import ThreadPoolExecutor
 import threading, multiprocessing,struct, time, socket
-import h5py
+#import h5py
 
 class Interface:
     def __init__(self, logger):
