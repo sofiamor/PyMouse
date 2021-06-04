@@ -1,3 +1,4 @@
+from signal import signal, SIGINT
 from DatabaseTables import *
 from time import sleep
 import numpy as np
