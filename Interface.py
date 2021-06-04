@@ -366,7 +366,6 @@ class Writer(object):
         self.datasets = dict()
         self.thread_end = threading.Event()
         self.thread_runner = threading.Thread(target=self.dequeue)  # max insertion rate of 10 events/sec
-        self.filename = datetime.now().strftime("%Y-%m-%d-%H-%M-%S") + ".h5"
         self.thread_runner.start()
 
     def createDataset(self, dataset, shape, dtype=np.int16, compression="gzip", chunk_len=1):
@@ -410,9 +409,10 @@ class Writer(object):
                     chunks=(chunk_len,) + shape)
 
 def handler(signal_received, frame):
-    # Handle any cleanup here
+      # Handle any cleanup here
       saver.exit()
       print('SIGINT or CTRL-C detected. Exiting gracefully')
+      filename = datetime.now().strftime("%Y-%m-%d-%H-%M-%S") + ".h5"
       copyfile(filename, "/mnt/lab/users/sofia/tracking_" + filename)
       print('Copying done, you can exit now')
       mouse1.close();
