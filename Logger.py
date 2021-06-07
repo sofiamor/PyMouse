@@ -1,3 +1,4 @@
+import dj as dj
 import numpy, socket, json, os, h5py, pathlib, threading, functools
 from utils.Timer import *
 from utils.Generator import *
@@ -250,7 +251,7 @@ def handler(signal_received, frame):
 
 signal(SIGINT, handler)
 saver = Writer(filename)
-saver.createDataset('tracking_data', shape=(6,), dtype=TIME_SERIES_DOUBLE)
+saver.createDataset('tracking_data', shape=(4,), dtype=TIME_SERIES_DOUBLE)
 
 while True:
     # if keyboard.is_pressed('q'):  # if key 'q' is pressed
