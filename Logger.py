@@ -249,15 +249,12 @@ def handler(signal_received, frame):
       mouse2.close();
       exit(0)
 
+filename = datetime.now().strftime("%Y-%m-%d-%H-%M-%S") + ".h5"
 signal(SIGINT, handler)
 saver = Writer(filename)
 saver.createDataset('tracking_data', shape=(4,), dtype=TIME_SERIES_DOUBLE)
 
 while True:
-    # if keyboard.is_pressed('q'):  # if key 'q' is pressed
-    #        print('You Pressed A Key!')
-    #        copyfile(filename,"/mnt/lab/users/sofia/tracking_"+filename)
-    #        break
     if getMouseEvent():
        saver.append('tracking_data', [loc_x, loc_y, theta, timestamp])
 
