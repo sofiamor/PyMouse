@@ -261,7 +261,7 @@ def handler(signal_received, frame):
 
 signal(SIGINT, handler)
 saver = Writer(filename)
-saver.createDataset('tracking_data', shape=(4,), dtype=TIME_SERIES_DOUBLE)
+saver.createDataset('tracking_data', dataset=None, shape=(4,), dtype=TIME_SERIES_DOUBLE)
 
 while True:
     if getMouseEvent():
