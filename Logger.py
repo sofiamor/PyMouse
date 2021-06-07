@@ -197,9 +197,9 @@ class Writer(object):
         self.thread_end = threading.Event()
         self.thread_runner = threading.Thread(target=self.dequeue)  # max insertion rate of 10 events/sec
         self.thread_runner.start()
-        self.h5Dataset = h5Dataset(datapath, dataset, shape)
 
     def createDataset(self, dataset, shape, dtype=np.int16, compression="gzip", chunk_len=1):
+        self.h5Dataset = h5Dataset(datapath, dataset, shape)
         self.datasets[dataset] = self.h5Dataset(self.datapath, dataset, shape, dtype, compression, chunk_len)
 
     def append(self, dataset, data):
