@@ -2,7 +2,7 @@ import datajoint as dj
 import numpy, socket, json, os, h5py, pathlib, threading, functools
 from utils.Timer import *
 from utils.Generator import *
-from queue import PriorityQueue
+from queue import PriorityQueue, Queue
 import time as systime
 from datetime import datetime
 from signal import signal, SIGINT
@@ -238,18 +238,25 @@ class h5Dataset():
                 compression=compression,
                 chunks=(chunk_len,) + shape)
 
+filename = datetime.now().strftime("%Y-%m-%d-%H-%M-%S") + ".h5"
+TIME_SERIES_DOUBLE = np.dtype([("x", np.double),
+                              ("y", np.double),
+                              ("loc_x", np.double),
+                              ("loc_y", np.double),
+                              ("theta", np.double),
+                              ("tmst", np.double)])
+
 def handler(signal_received, frame):
       # Handle any cleanup here
       saver.exit()
       print('SIGINT or CTRL-C detected. Exiting gracefully')
-      filename = datetime.now().strftime("%Y-%m-%d-%H-%M-%S") + ".h5"
+      # filename = datetime.now().strftime("%Y-%m-%d-%H-%M-%S") + ".h5"
       copyfile(filename, "/mnt/lab/users/sofia/tracking_" + filename)
       print('Copying done, you can exit now')
       mouse1.close();
       mouse2.close();
       exit(0)
 
-filename = datetime.now().strftime("%Y-%m-%d-%H-%M-%S") + ".h5"
 signal(SIGINT, handler)
 saver = Writer(filename)
 saver.createDataset('tracking_data', shape=(4,), dtype=TIME_SERIES_DOUBLE)
