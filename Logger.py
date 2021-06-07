@@ -1,4 +1,4 @@
-import dj as dj
+import datajoint as dj
 import numpy, socket, json, os, h5py, pathlib, threading, functools
 from utils.Timer import *
 from utils.Generator import *
