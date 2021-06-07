@@ -173,6 +173,20 @@ class PrioritizedItem:
     replace: bool = datafield(compare=False, default=False)
     priority: int = datafield(default=50)
 
+class h5Dataset():
+    def __init__(self, datapath, dataset, shape, dtype=np.uint16, compression="gzip", chunk_len=1):
+        with h5py.File(datapath, mode='a') as h5f:
+            self.i = 0
+            self.shape = shape
+            self.dtype = dtype
+            h5f.create_dataset(
+                dataset,
+                shape=(0,) + shape,
+                maxshape=(None,) + shape,
+                dtype=dtype,
+                compression=compression,
+                chunks=(chunk_len,) + shape)
+
 class Writer(object):
     """
     Simple class to append value to a hdf5 file on disc (usefull for building k$
@@ -197,7 +211,6 @@ class Writer(object):
         self.thread_end = threading.Event()
         self.thread_runner = threading.Thread(target=self.dequeue)  # max insertion rate of 10 events/sec
         self.thread_runner.start()
-        self.h5Dataset()
 
     def createDataset(self, dataset, shape, dtype=np.int16, compression="gzip", chunk_len=1):
         self.datasets[dataset] = self.h5Dataset(self.datapath, dataset, shape, dtype, compression, chunk_len)
@@ -225,19 +238,6 @@ class Writer(object):
             time.sleep(.1)
         self.thread_end.set()
 
-class h5Dataset():
-    def __init__(self, datapath, dataset, shape, dtype=np.uint16, compression="gzip", chunk_len=1):
-        with h5py.File(datapath, mode='a') as h5f:
-            self.i = 0
-            self.shape = shape
-            self.dtype = dtype
-            h5f.create_dataset(
-                dataset,
-                shape=(0,) + shape,
-                maxshape=(None,) + shape,
-                dtype=dtype,
-                compression=compression,
-                chunks=(chunk_len,) + shape)
 
 filename = datetime.now().strftime("%Y-%m-%d-%H-%M-%S") + ".h5"
 TIME_SERIES_DOUBLE = np.dtype([("x", np.double),
