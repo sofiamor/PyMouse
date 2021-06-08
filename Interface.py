@@ -315,7 +315,7 @@ class Ball(Interface):
                                        ("tmst", np.double)])
 
         self.dataset = self.Writer(datapath, target_path)
-        self.dataset.createDataset('tracking_data', dataset=None, shape=(4,), dtype=TIME_SERIES_DOUBLE)
+        self.dataset.createDataset('tracking_data', shape=(4,), dtype=TIME_SERIES_DOUBLE)
 
     def append2Dataset(self):
         self.dataset.append('tracking_data', [self.loc_x, self.loc_y, self.theta, self.timestamp])
