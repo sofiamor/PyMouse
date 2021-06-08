@@ -221,14 +221,6 @@ class VRProbe(Interface):
         self.Pulser.wave_add_generic(pulse)  # 500 ms flashes
         self.pulses[probe] = self.Pulser.wave_create()
 
-    def position_change(self, channel=0):
-        if self.getStart():
-            self.timer_ready.start()
-            if not self.ready:
-                self.ready = True
-                self.ready_tmst = self.logger.log('CenterPort', dict(in_position=self.ready))
-                print('in position')
-
     def pulse_out(self, probe):
         self.Pulser.wave_send_once(self.pulses[probe])
 
@@ -245,7 +237,8 @@ class VRProbe(Interface):
 
 
 class Ball(Interface):
-    def __init__(self,  ball_radius=0.125):
+    def __init__(self,  ball_radius=0.125, path='', target_path=False):
+        from utils.Writer import *
         self.quit()
         self.mouse1 = MouseReader("/dev/input/by-path/platform-fd500000.pcie-pci-0000:01:00.0-usb-0:1.1:1.0-mouse")
         self.mouse2 = MouseReader("/dev/input/by-path/platform-fd500000.pcie-pci-0000:01:00.0-usb-0:1.2:1.0-mouse")
@@ -257,9 +250,11 @@ class Ball(Interface):
         self.phi_y1 = np.pi - 0.13  # angle of y1 axis (mouse1) .6
         self.phi_y2 = self.phi_y1 + np.pi/2  # angle of y2 axis (mouse2)
         self.ball_radius = ball_radius
+        self.createDataset(path, target_path)
         self.thread_end = threading.Event()
         self.thread_runner = threading.Thread(target=self.readMouse)
         self.thread_runner.start()
+
 
     def readMouse(self):
         while not self.thread_end.is_set():
@@ -295,6 +290,7 @@ class Ball(Interface):
             self.loc_y = loc_y
             self.timestamp = timestamp
             print(self.loc_x, self.loc_y, self.theta/np.pi*180)
+            self.append2Dataset()
             time.sleep(.1)
 
     def setPosition(self, xmx=1, ymx=1, x0=0, y0=0, theta0=0):
@@ -307,15 +303,34 @@ class Ball(Interface):
     def getPosition(self):
         return self.loc_x, self.loc_y, self.theta,  self.timestamp
 
-
     def getSpeed(self):
         return self.speed
+
+    def createDataset(self, path='', target_path=False):
+        datapath = path + datetime.now().strftime("%Y-%m-%d-%H-%M-%S") + ".h5"
+        TIME_SERIES_DOUBLE = np.dtype([("x", np.double),
+                                       ("y", np.double),
+                                       ("loc_x", np.double),
+                                       ("loc_y", np.double),
+                                       ("theta", np.double),
+                                       ("tmst", np.double)])
+
+        self.dataset = Writer(datapath, target_path)
+        self.dataset.createDataset('tracking_data', dataset=None, shape=(4,), dtype=TIME_SERIES_DOUBLE)
+
+    def append2Dataset(self):
+        self.dataset.append('tracking_data', [self.loc_x, self.loc_y, self.theta, self.timestamp])
+
+    def closeDatasets(self):
+        for dataset in self.datasets:
+            dataset.exit()
 
     def quit(self):
         try:
             self.thread_end.set()
             self.mouse1.close()
             self.mouse2.close()
+            self.closeDatasets()
         except:
             print('Ball not running!')
 
