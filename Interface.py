@@ -242,6 +242,7 @@ class Ball(Interface):
         self.quit()
         self.mouse1 = MouseReader("/dev/input/by-path/platform-fd500000.pcie-pci-0000:01:00.0-usb-0:1.1:1.0-mouse")
         self.mouse2 = MouseReader("/dev/input/by-path/platform-fd500000.pcie-pci-0000:01:00.0-usb-0:1.2:1.0-mouse")
+        self.Writer = Writer
         self.speed = 0
         self.timestamp = 0
         self.setPosition()
@@ -315,7 +316,7 @@ class Ball(Interface):
                                        ("theta", np.double),
                                        ("tmst", np.double)])
 
-        self.dataset = Writer(datapath, target_path)
+        self.dataset = self.Writer(datapath, target_path)
         self.dataset.createDataset('tracking_data', dataset=None, shape=(4,), dtype=TIME_SERIES_DOUBLE)
 
     def append2Dataset(self):
