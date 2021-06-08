@@ -309,9 +309,7 @@ class Ball(Interface):
 
     def createDataset(self, path='', target_path=False):
         datapath = path + datetime.now().strftime("%Y-%m-%d-%H-%M-%S") + ".h5"
-        TIME_SERIES_DOUBLE = np.dtype([("x", np.double),
-                                       ("y", np.double),
-                                       ("loc_x", np.double),
+        TIME_SERIES_DOUBLE = np.dtype([("loc_x", np.double),
                                        ("loc_y", np.double),
                                        ("theta", np.double),
                                        ("tmst", np.double)])
