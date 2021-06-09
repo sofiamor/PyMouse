@@ -63,8 +63,8 @@ class Writer(object):
         self.thread_end.set()
         if self.target_path:
             copyfile(self.datapath, self.target_path + os.path.basename(datapath))
-            self.quit()
-            print('file is copied')
+        self.quit()
+        print('file is copied')
 
     class h5Dataset():
         def __init__(self, datapath, dataset, shape, dtype=np.uint16, compression="gzip", chunk_len=1):
