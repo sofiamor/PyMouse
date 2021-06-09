@@ -30,12 +30,12 @@ class Writer(object):
         self.thread_runner.start()
         self.target_path = target_path
 
-    def createDataset(self, datasets, shape, dtype=np.int16, compression="gzip", chunk_len=1):
-        self.datasets[datasets] = self.h5Dataset(self.datapath, datasets, shape, dtype, compression, chunk_len)
+    def createDataset(self, dataset, shape, dtype=np.int16, compression="gzip", chunk_len=1):
+        self.datasets[dataset] = self.h5Dataset(self.datapath, dataset, shape, dtype, compression, chunk_len)
         print('Dataset is created')
 
     def append(self, dataset, data):
-        self.queue.put({'datasets': datasets, 'data':data})
+        self.queue.put({'datasets': dataset, 'data':data})
         print('dataset is appended')
 
     def dequeue(self):
