@@ -61,10 +61,10 @@ class Writer(object):
             time.sleep(.1)
             print('file aint copied')
         self.thread_end.set()
+        self.closeDatasets()
+        self.quit()
         if self.target_path:
             copyfile(self.datapath, self.target_path + os.path.basename(datapath))
-            self.closeDatasets()
-            self.quit()
             print('file is copied')
 
     class h5Dataset():
