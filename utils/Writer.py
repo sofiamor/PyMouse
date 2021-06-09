@@ -30,12 +30,12 @@ class Writer(object):
         self.thread_runner.start()
         self.target_path = target_path
 
-    def createDataset(self, dataset, shape, dtype=np.int16, compression="gzip", chunk_len=1):
-        self.datasets[dataset] = self.h5Dataset(self.datapath, dataset, shape, dtype, compression, chunk_len)
+    def createDataset(self, datasets, shape, dtype=np.int16, compression="gzip", chunk_len=1):
+        self.datasets[datasets] = self.h5Dataset(self.datapath, datasets, shape, dtype, compression, chunk_len)
         print('Dataset is created')
 
     def append(self, dataset, data):
-        self.queue.put({'datasets': self.datasets, 'data':data})
+        self.queue.put({'datasets': datasets, 'data':data})
         print('dataset is appended')
 
     def dequeue(self):
@@ -63,13 +63,13 @@ class Writer(object):
         print('file is copied')
 
     class h5Dataset():
-        def __init__(self, datapath, datasets, shape, dtype=np.uint16, compression="gzip", chunk_len=1):
+        def __init__(self, datapath, dataset, shape, dtype=np.uint16, compression="gzip", chunk_len=1):
             with h5py.File(datapath, mode='a') as h5f:
                 self.i = 0
                 self.shape = shape
                 self.dtype = dtype
                 h5f.create_dataset(
-                    datasets,
+                    dataset,
                     shape=(0,) + shape,
                     maxshape=(None,) + shape,
                     dtype=dtype,
