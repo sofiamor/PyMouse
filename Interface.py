@@ -320,18 +320,16 @@ class Ball(Interface):
     def append2Dataset(self):
         self.dataset.append('tracking_data', [self.loc_x, self.loc_y, self.theta, self.timestamp])
 
-    # def closeDatasets(self):
-    #     print('GIATI')
-    #     self.dataset.dequeue()
-    #     self.dataset.exit()
+    def closeDatasets(self):
+        print('GIATI')
+        self.dataset.exit()
 
     def quit(self):
         try:
             self.thread_end.set()
             self.mouse1.close()
             self.mouse2.close()
-            # self.closeDatasets()
-            self.dataset.exit()
+            self.closeDatasets()
         except:
             print('ball not running')
 

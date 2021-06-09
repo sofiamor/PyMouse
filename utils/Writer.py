@@ -64,8 +64,8 @@ class Writer(object):
         if self.target_path:
             copyfile(self.datapath, self.target_path + os.path.basename(datapath))
             print('FILE IS COPIED')
-        self.closeDatasets()
-        self.quit()
+        # self.closeDatasets()
+        # self.quit()
         print('TI GINETAI ME TO EXIT')
 
     class h5Dataset():
