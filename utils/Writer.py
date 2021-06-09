@@ -53,7 +53,7 @@ class Writer(object):
                     h5f.flush()
             else:
                 time.sleep(.1)
-            print('dequeueueueue')
+                print('dequeueueueue')
 
     def exit(self):
         while not self.queue.empty():
