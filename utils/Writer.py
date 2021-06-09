@@ -41,8 +41,8 @@ class Writer(object):
         while not self.thread_end.is_set():
             if not self.queue.empty():
                 values = self.queue.get()
-                #if values['dataset'] == 'frames':
-                #    data = values['data']
+                # if values['dataset'] == 'frames':
+                #     data = values['data']
                 with h5py.File(self.datapath, mode='a') as h5f:
                     self.dset = h5f[values['dataset']]
                     self.dset.resize((self.datasets[values['dataset']].i + 1, ) + self.dataset[values['dataset']].shape)
@@ -62,13 +62,13 @@ class Writer(object):
         print('file is copied')
 
     class h5Dataset():
-        def __init__(self, datapath, shape, dtype=np.uint16, compression="gzip", chunk_len=1):
+        def __init__(self, datapath, dataset, shape, dtype=np.uint16, compression="gzip", chunk_len=1):
             with h5py.File(datapath, mode='a') as h5f:
                 self.i = 0
                 self.shape = shape
                 self.dtype = dtype
                 h5f.create_dataset(
-                    'dataset',
+                    'dataset', data =d1,
                     shape=(0,) + shape,
                     maxshape=(None,) + shape,
                     dtype=dtype,
