@@ -35,7 +35,7 @@ class Writer(object):
         print('Dataset is created')
 
     def append(self, dataset, data):
-        self.queue.put({'datasets':dataset, 'data':data})
+        self.queue.put({'datasets': self.datasets, 'data':data})
         print('dataset is appended')
 
     def dequeue(self):
