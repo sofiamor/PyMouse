@@ -28,6 +28,7 @@ class Writer(object):
         self.thread_end = threading.Event()
         self.thread_runner = threading.Thread(target=self.dequeue)  # max insertion rate of 10 events/sec
         self.thread_runner.start()
+        self.target_path = target_path
 
     def createDataset(self, dataset, shape, dtype=np.int16, compression="gzip", chunk_len=1):
         self.datasets[dataset] = self.h5Dataset(self.datapath, dataset, shape, dtype, compression, chunk_len)
@@ -67,9 +68,8 @@ class Writer(object):
                 self.i = 0
                 self.shape = shape
                 self.dtype = dtype
-                d1 = np.random.random(size=(4,))
                 h5f.create_dataset(
-                    'dataset', data =d1,
+                    dataset,
                     shape=(0,) + shape,
                     maxshape=(None,) + shape,
                     dtype=dtype,
