@@ -36,7 +36,7 @@ class Writer(object):
 
     def append(self, dataset, data):
         self.queue.put({'dataset': dataset, 'data':data})
-        print('data is appended')
+        print('data are appended')
 
     def dequeue(self):
         print('what is happening')
