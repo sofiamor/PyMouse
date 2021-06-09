@@ -63,13 +63,13 @@ class Writer(object):
         print('file is copied')
 
     class h5Dataset():
-        def __init__(self, datapath, dataset, shape, dtype=np.uint16, compression="gzip", chunk_len=1):
+        def __init__(self, datapath, datasets, shape, dtype=np.uint16, compression="gzip", chunk_len=1):
             with h5py.File(datapath, mode='a') as h5f:
                 self.i = 0
                 self.shape = shape
                 self.dtype = dtype
                 h5f.create_dataset(
-                    dataset,
+                    datasets,
                     shape=(0,) + shape,
                     maxshape=(None,) + shape,
                     dtype=dtype,
