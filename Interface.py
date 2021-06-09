@@ -322,7 +322,7 @@ class Ball(Interface):
 
     def closeDatasets(self):
         for dataset in self.datasets:
-            self.dataset.exit()
+            self.datasets.exit(dataset)
 
     def quit(self):
         try:
