@@ -321,8 +321,8 @@ class Ball(Interface):
         self.dataset.append('tracking_data', [self.loc_x, self.loc_y, self.theta, self.timestamp])
 
     def closeDatasets(self):
-        self.dataset.exit()
         print('giati')
+        self.dataset.exit()
 
     def quit(self):
         try:
@@ -354,5 +354,4 @@ class MouseReader:
     def close(self):
         self.thread_end.set()
         self.thread_runner.join()
-        self.exit()
 
