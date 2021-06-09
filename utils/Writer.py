@@ -66,6 +66,7 @@ class Writer(object):
             print('file is copied')
         self.closeDatasets()
         self.quit()
+        print('TI GINETAI ME TO EXIT')
 
     class h5Dataset():
         def __init__(self, datapath, dataset, shape, dtype=np.uint16, compression="gzip", chunk_len=1):
