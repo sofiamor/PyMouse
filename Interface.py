@@ -322,13 +322,16 @@ class Ball(Interface):
 
     def closeDatasets(self):
         self.dataset.exit()
+        print('giati')
 
     def quit(self):
-        self.thread_end.set()
-        self.mouse1.close()
-        self.mouse2.close()
-        self.closeDatasets()
-
+        try:
+            self.thread_end.set()
+            self.mouse1.close()
+            self.mouse2.close()
+            self.closeDatasets()
+        except:
+            print('ball not running')
 
 
 class MouseReader:
