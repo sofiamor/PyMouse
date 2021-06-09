@@ -39,6 +39,7 @@ class Writer(object):
         print('dataset is appended')
 
     def dequeue(self):
+        print('what is happening')
         while not self.thread_end.is_set():
             if not self.queue.empty():
                 values = self.queue.get()
@@ -55,6 +56,7 @@ class Writer(object):
         print('dequeueueueueue')
 
     def exit(self):
+        print('file aint copied')
         while not self.queue.empty():
             time.sleep(.1)
         self.thread_end.set()
