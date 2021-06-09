@@ -56,14 +56,14 @@ class Writer(object):
                 print('dequeueueueue')
 
     def exit(self):
-        print('ti fash')
+        print('TI FASHH')
         while not self.queue.empty():
             time.sleep(.1)
-            print('file aint copied')
+            print('FILE AINT COPIED')
         self.thread_end.set()
         if self.target_path:
             copyfile(self.datapath, self.target_path + os.path.basename(datapath))
-            print('file is copied')
+            print('FILE IS COPIED')
         self.closeDatasets()
         self.quit()
         print('TI GINETAI ME TO EXIT')
