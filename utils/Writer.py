@@ -67,6 +67,7 @@ class Writer(object):
                 self.i = 0
                 self.shape = shape
                 self.dtype = dtype
+                d1 = np.random.random(size=(4,))
                 h5f.create_dataset(
                     'dataset', data =d1,
                     shape=(0,) + shape,
