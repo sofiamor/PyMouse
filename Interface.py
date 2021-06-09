@@ -324,7 +324,7 @@ class Ball(Interface):
         self.dataset.exit()
         print('giati')
 
-    def quit(self):
+    def exit(self):
         try:
             self.thread_end.set()
             self.mouse1.close()
