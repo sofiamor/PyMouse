@@ -321,7 +321,7 @@ class Ball(Interface):
         self.dataset.append('tracking_data', [self.loc_x, self.loc_y, self.theta, self.timestamp])
 
     def closeDatasets(self):
-            self.dataset.exit()
+        self.dataset.exit()
 
     def quit(self):
         try:
