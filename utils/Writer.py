@@ -31,9 +31,11 @@ class Writer(object):
 
     def createDataset(self, dataset, shape, dtype=np.int16, compression="gzip", chunk_len=1):
         self.datasets[dataset] = self.h5Dataset(self.datapath, dataset, shape, dtype, compression, chunk_len)
+        print('Dataset is created')
 
     def append(self, dataset, data):
         self.queue.put({'dataset':dataset, 'data':data})
+        print('dataset is appended')
 
     def dequeue(self):
         while not self.thread_end.is_set():
@@ -49,6 +51,7 @@ class Writer(object):
                     h5f.flush()
             else:
                 time.sleep(.1)
+        print('dequeueueueueue')
 
     def exit(self):
         while not self.queue.empty():
@@ -56,6 +59,7 @@ class Writer(object):
         self.thread_end.set()
         if self.target_path:
             copyfile(self.datapath, self.target_path + os.path.basename(datapath))
+        print('file is copied')
 
     class h5Dataset():
         def __init__(self, datapath, dataset, shape, dtype=np.uint16, compression="gzip", chunk_len=1):
@@ -70,3 +74,4 @@ class Writer(object):
                     dtype=dtype,
                     compression=compression,
                     chunks=(chunk_len,) + shape)
+            print('ola kala')

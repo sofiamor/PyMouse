@@ -35,7 +35,7 @@ class State(StateClass):
             'Exit'         : exitState}
 
     def entry(self):  # updates stateMachine from Database entry - override for timing critical transitions
-        print(type(self).__name__)
+        # print(type(self).__name__)
         self.logger.curr_state = type(self).__name__
         self.period_start = self.logger.log('StateOnset', {'state': type(self).__name__})
         self.timer.start()
