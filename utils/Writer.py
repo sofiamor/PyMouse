@@ -35,7 +35,7 @@ class Writer(object):
         print('Dataset is created')
 
     def append(self, dataset, data):
-        self.queue.put({'datasets': dataset, 'data':data})
+        self.queue.put({'dataset': dataset, 'data':data})
         print('dataset is appended')
 
     def dequeue(self):
@@ -45,10 +45,10 @@ class Writer(object):
                 # if values['dataset'] == 'frames':
                 #     data = values['data']
                 with h5py.File(self.datapath, mode='a') as h5f:
-                    self.dset = h5f[values['datasets']]
-                    self.dset.resize((self.datasets[values['datasets']].i + 1, ) + self.datasets[values['datasets']].shape)
-                    self.dset[self.datasets[values['datasets']].i] = [values['data']]
-                    self.datasets[values['datasets']].i += 1
+                    self.dset = h5f[values['dataset']]
+                    self.dset.resize((self.datasets[values['dataset']].i + 1, ) + self.datasets[values['dataset']].shape)
+                    self.dset[self.datasets[values['dataset']].i] = [values['data']]
+                    self.datasets[values['dataset']].i += 1
                     h5f.flush()
             else:
                 time.sleep(.1)
