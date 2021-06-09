@@ -56,6 +56,7 @@ class Writer(object):
                 print('dequeueueueue')
 
     def exit(self):
+        print('ti fash')
         while not self.queue.empty():
             time.sleep(.1)
             print('file aint copied')
