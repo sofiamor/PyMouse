@@ -58,8 +58,8 @@ class Writer(object):
     def exit(self):
         while not self.queue.empty():
             time.sleep(.1)
+            print('file aint copied')
         self.thread_end.set()
-        print('file aint copied')
         if self.target_path:
             copyfile(self.datapath, self.target_path + os.path.basename(datapath))
             print('file is copied')
