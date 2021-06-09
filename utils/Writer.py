@@ -60,10 +60,10 @@ class Writer(object):
         while not self.queue.empty():
             time.sleep(.1)
             print('file aint copied')
-        self.thread_end.set()
-        if self.target_path:
-            copyfile(self.datapath, self.target_path + os.path.basename(datapath))
-            print('file is copied')
+            self.thread_end.set()
+            if self.target_path:
+                copyfile(self.datapath, self.target_path + os.path.basename(datapath))
+                print('file is copied')
 
     class h5Dataset():
         def __init__(self, datapath, dataset, shape, dtype=np.uint16, compression="gzip", chunk_len=1):
