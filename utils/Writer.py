@@ -46,7 +46,7 @@ class Writer(object):
                 #     data = values['data']
                 with h5py.File(self.datapath, mode='a') as h5f:
                     self.dset = h5f[values['datasets']]
-                    self.dset.resize((self.datasets[values['datasets']].i + 1, ) + self.dataset[values['datasets']].shape)
+                    self.dset.resize((self.datasets[values['datasets']].i + 1, ) + self.datasets[values['datasets']].shape)
                     self.dset[self.datasets[values['datasets']].i] = [values['data']]
                     self.datasets[values['datasets']].i += 1
                     h5f.flush()
