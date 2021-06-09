@@ -53,7 +53,7 @@ class Writer(object):
                     h5f.flush()
             else:
                 time.sleep(.1)
-        print('dequeueueueueue')
+            print('dequeueueueueue')
 
     def exit(self):
         print('file aint copied')
