@@ -322,6 +322,7 @@ class Ball(Interface):
 
     def closeDatasets(self):
         print('giati')
+        self.dataset.dequeue()
         self.dataset.exit()
 
     def quit(self):
