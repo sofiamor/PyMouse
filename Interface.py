@@ -327,9 +327,9 @@ class Ball(Interface):
     def quit(self):
         try:
             self.thread_end.set()
+            self.closeDatasets()
             self.mouse1.close()
             self.mouse2.close()
-            self.closeDatasets()
         except:
             print('ball not running')
 
