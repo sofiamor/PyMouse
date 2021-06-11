@@ -87,6 +87,7 @@ class Trial(State):
     def run(self):
         self.stim.present()
         self.response = self.beh.is_licking(self.period_start)
+        print('I am running')
         time.sleep(.1)
 
     def next(self):
@@ -106,6 +107,7 @@ class Trial(State):
             return states['Trial']
 
     def exit(self):
+        print('I am exiting')
         self.stim.stop()
         self.logger.ping()
 
@@ -167,6 +169,7 @@ class InterTrial(State):
 
 class Exit(State):
     def run(self):
+        print('Exiting state')
         self.beh.cleanup()
         self.stim.close()
         self.logger.ping(0)

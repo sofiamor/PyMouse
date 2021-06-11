@@ -327,6 +327,7 @@ class VRBehavior(Behavior):
         self.interface.update_odor(dutycycle)
 
     def cleanup(self):
+        print('beh cleanup')
         self.vr.quit()
         self.interface.cleanup()
 

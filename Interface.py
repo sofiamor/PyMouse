@@ -325,6 +325,7 @@ class Ball(Interface):
         self.dataset.exit()
 
     def quit(self):
+        print('I m quitting')
         try:
             self.thread_end.set()
             self.closeDatasets()
