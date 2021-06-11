@@ -1,6 +1,6 @@
 import numpy as np
 from datetime import *
-import time, h5py, threading
+import time, h5py, threading, os
 from queue import Queue
 
 
@@ -59,7 +59,9 @@ class Writer(object):
         while not self.queue.empty():
             time.sleep(.1)
             print('FILE AINT COPIED')
-        print(self.target_path + os.path.basename(self.datapath))
+        print(self.target_path)
+        print(self.datapath)
+        print(os.path.basename(self.datapath))
         self.thread_end.set()
         print(self.target_path + os.path.basename(self.datapath))
         if self.target_path:
