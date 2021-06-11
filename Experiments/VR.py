@@ -171,5 +171,5 @@ class Exit(State):
     def run(self):
         print('Exiting state')
         self.beh.cleanup()
-        self.stim.close()
+        self.stim.stop()
         self.logger.ping(0)
