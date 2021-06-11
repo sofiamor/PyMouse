@@ -59,8 +59,8 @@ class Writer(object):
         while not self.queue.empty():
             time.sleep(.1)
             print('FILE AINT COPIED')
-        self.thread_end.set()
         print(self.target_path + os.path.basename(self.datapath))
+        self.thread_end.set()
         if self.target_path:
             copyfile(self.datapath, self.target_path + os.path.basename(self.datapath))
             print('FILE IS COPIED')
