@@ -36,7 +36,6 @@ class Writer(object):
 
     def append(self, dataset, data):
         self.queue.put({'dataset': dataset, 'data':data})
-        print('data are appended')
 
     def dequeue(self):
         print('what is happening')
@@ -62,10 +61,8 @@ class Writer(object):
             print('FILE AINT COPIED')
         self.thread_end.set()
         if self.target_path:
-            copyfile(self.datapath, self.target_path + os.path.basename(datapath))
+            copyfile(self.datapath, self.target_path + os.path.basename(self.datapath))
             print('FILE IS COPIED')
-        # self.closeDatasets()
-        # self.quit()
         print('TI GINETAI ME TO EXIT')
 
     class h5Dataset():
