@@ -60,8 +60,8 @@ class Writer(object):
             time.sleep(.1)
             print('FILE AINT COPIED')
         self.thread_end.set()
+        print(self.target_path + os.path.basename(self.datapath))
         if self.target_path:
-            print(self.target_path + os.path.basename(self.datapath))
             copyfile(self.datapath, self.target_path + os.path.basename(self.datapath))
             print('FILE IS COPIED')
         print('TI GINETAI ME TO EXIT')
