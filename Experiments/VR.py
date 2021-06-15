@@ -87,7 +87,6 @@ class Trial(State):
     def run(self):
         self.stim.present()
         self.response = self.beh.is_licking(self.period_start)
-        print('I am running')
         time.sleep(.1)
 
     def next(self):
