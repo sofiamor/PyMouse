@@ -183,7 +183,7 @@ class VRProbe(Interface):
         self.setup = int(''.join(list(filter(str.isdigit, socket.gethostname()))))
         self.GPIO = GPIO
         self.GPIO.setmode(self.GPIO.BCM)
-        self.frequency = 10
+        self.frequency = 5
         self.channels = {'odor': {1: 19, 2: 16, 3: 26, 4: 20},
                          'liquid': {1: 22},
                          'lick': {1: 17}}
