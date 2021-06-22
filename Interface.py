@@ -341,6 +341,7 @@ class Ball(Interface):
             print('setting up mouse')
             self.dpm = dpm
             self.logger = logger
+            self.path = path
             self.queue = multiprocessing.Queue()
             self.file = open(path, "rb")
             self.thread_end = multiprocessing.Event()
