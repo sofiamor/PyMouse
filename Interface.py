@@ -237,13 +237,13 @@ class VRProbe(Interface):
 
 
 class Ball(Interface):
-    def __init__(self,  logger, ball_radius=0.125, path='', target_path=False):
+    def __init__(self, ball_radius=0.125, path='', target_path=False):
         from utils.Writer import Writer
         self.quit()
         self.mouse1 = self.MouseReader("/dev/input/by-path/platform-fd500000.pcie-pci-0000:01:00.0-usb-0:1.1:1.0-mouse")
         self.mouse2 = self.MouseReader("/dev/input/by-path/platform-fd500000.pcie-pci-0000:01:00.0-usb-0:1.2:1.0-mouse")
         self.Writer = Writer
-        self.logger = logger
+        # self.logger = logger
         self.speed = 0
         self.timestamp = 0
         self.setPosition()
@@ -341,7 +341,6 @@ class Ball(Interface):
             print('setting up mouse')
             self.dpm = dpm
             self.logger = logger
-            self.path = path
             self.queue = multiprocessing.Queue()
             self.file = open(path, "rb")
             self.thread_end = multiprocessing.Event()
