@@ -241,8 +241,8 @@ class Ball(Interface):
         from utils.Writer import Writer
         self.quit()
         self.logger = logger
-        self.mouse1 = Ball.MouseReader("/dev/input/by-path/platform-fd500000.pcie-pci-0000:01:00.0-usb-0:1.1:1.0-mouse")
-        self.mouse2 = Ball.MouseReader("/dev/input/by-path/platform-fd500000.pcie-pci-0000:01:00.0-usb-0:1.2:1.0-mouse")
+        self.mouse1 = MouseReader("/dev/input/by-path/platform-fd500000.pcie-pci-0000:01:00.0-usb-0:1.1:1.0-mouse", logger)
+        self.mouse2 = MouseReader("/dev/input/by-path/platform-fd500000.pcie-pci-0000:01:00.0-usb-0:1.2:1.0-mouse", logger)
         self.Writer = Writer
         self.speed = 0
         self.timestamp = 0
@@ -337,8 +337,9 @@ class Ball(Interface):
 
 
     class MouseReader:
-        def __init__(self, path, dpm=31200):
+        def __init__(self, path, logger, dpm=31200):
             print('setting up mouse')
+            self.logger = logger
             self.dpm = dpm
             self.queue = multiprocessing.Queue()
             self.file = open(path, "rb")
@@ -351,7 +352,7 @@ class Ball(Interface):
                 # print('Reading file')
                 data = self.file.read(3)  # Reads the 3 bytes
                 x, y = struct.unpack("2b", data[1:])
-                queue.put({'x': x/dpm, 'y': y/dpm, 'timestamp': super().logger.session_timer.elapsed_time()})
+                queue.put({'x': x/dpm, 'y': y/dpm, 'timestamp': self.logger.session_timer.elapsed_time()})
 
         def close(self):
             self.thread_end.set()
