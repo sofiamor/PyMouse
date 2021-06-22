@@ -53,7 +53,7 @@ conditions += factorize({**key,
                         'trial_duration'      : 300000,
                         'intertrial_duration' : 0,
                         'fun'                 : 2,
-                        'radius'              : 0.5,
+                        'radius'              : 0.8,
                         'response_duration'   : 240000})
 
 
