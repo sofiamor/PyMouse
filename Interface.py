@@ -237,12 +237,13 @@ class VRProbe(Interface):
 
 
 class Ball(Interface):
-    def __init__(self,  ball_radius=0.125, path='', target_path=False):
+    def __init__(self,  ball_radius=0.125, path='', target_path=False, logger):
         from utils.Writer import Writer
         self.quit()
-        self.mouse1 = MouseReader("/dev/input/by-path/platform-fd500000.pcie-pci-0000:01:00.0-usb-0:1.1:1.0-mouse")
-        self.mouse2 = MouseReader("/dev/input/by-path/platform-fd500000.pcie-pci-0000:01:00.0-usb-0:1.2:1.0-mouse")
+        self.mouse1 = self.MouseReader("/dev/input/by-path/platform-fd500000.pcie-pci-0000:01:00.0-usb-0:1.1:1.0-mouse")
+        self.mouse2 = self.MouseReader("/dev/input/by-path/platform-fd500000.pcie-pci-0000:01:00.0-usb-0:1.2:1.0-mouse")
         self.Writer = Writer
+        self.logger = logger
         self.speed = 0
         self.timestamp = 0
         self.setPosition()
@@ -335,24 +336,24 @@ class Ball(Interface):
             print('ball not running')
 
 
-class MouseReader:
-    def __init__(self, path, dpm=31200):
-        print('setting up mouse')
-        self.dpm = dpm
-        self.queue = multiprocessing.Queue()
-        self.file = open(path, "rb")
-        self.thread_end = multiprocessing.Event()
-        self.thread_runner = multiprocessing.Process(target=self.reader, args=(self.queue, self.dpm,))
-        self.thread_runner.start()
+    class MouseReader:
+        def __init__(self, path, dpm=31200):
+            print('setting up mouse')
+            self.dpm = dpm
+            self.queue = multiprocessing.Queue()
+            self.file = open(path, "rb")
+            self.thread_end = multiprocessing.Event()
+            self.thread_runner = multiprocessing.Process(target=self.reader, args=(self.queue, self.dpm,))
+            self.thread_runner.start()
 
-    def reader(self, queue, dpm):
-        while not self.thread_end.is_set():
-            # print('Reading file')
-            data = self.file.read(3)  # Reads the 3 bytes
-            x, y = struct.unpack("2b", data[1:])
-            queue.put({'x': x/dpm, 'y': y/dpm, 'timestamp': time.time()})
+        def reader(self, queue, dpm):
+            while not self.thread_end.is_set():
+                # print('Reading file')
+                data = self.file.read(3)  # Reads the 3 bytes
+                x, y = struct.unpack("2b", data[1:])
+                queue.put({'x': x/dpm, 'y': y/dpm, 'timestamp': super().logger.session_timer.elapsed_time()})
 
-    def close(self):
-        self.thread_end.set()
-        self.thread_runner.join()
+        def close(self):
+            self.thread_end.set()
+            self.thread_runner.join()
 
