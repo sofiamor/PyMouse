@@ -337,7 +337,7 @@ class Ball(Interface):
 
 
     class MouseReader:
-        def __init__(self, logger, path, dpm=31200):
+        def __init__(self, path, logger, dpm=31200):
             print('setting up mouse')
             self.dpm = dpm
             self.logger = logger
