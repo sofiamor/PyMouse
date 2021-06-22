@@ -240,10 +240,10 @@ class Ball(Interface):
     def __init__(self, logger, ball_radius=0.125, path="", target_path=False):
         from utils.Writer import Writer
         self.quit()
-        self.mouse1 = self.MouseReader("/dev/input/by-path/platform-fd500000.pcie-pci-0000:01:00.0-usb-0:1.1:1.0-mouse")
-        self.mouse2 = self.MouseReader("/dev/input/by-path/platform-fd500000.pcie-pci-0000:01:00.0-usb-0:1.2:1.0-mouse")
-        self.Writer = Writer
         self.logger = logger
+        self.mouse1 = Ball.MouseReader("/dev/input/by-path/platform-fd500000.pcie-pci-0000:01:00.0-usb-0:1.1:1.0-mouse")
+        self.mouse2 = Ball.MouseReader("/dev/input/by-path/platform-fd500000.pcie-pci-0000:01:00.0-usb-0:1.2:1.0-mouse")
+        self.Writer = Writer
         self.speed = 0
         self.timestamp = 0
         self.setPosition()
@@ -337,10 +337,9 @@ class Ball(Interface):
 
 
     class MouseReader:
-        def __init__(self, logger, path, dpm=31200):
+        def __init__(self, path, dpm=31200):
             print('setting up mouse')
             self.dpm = dpm
-            self.logger = logger
             self.queue = multiprocessing.Queue()
             self.file = open(path, "rb")
             self.thread_end = multiprocessing.Event()
