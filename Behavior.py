@@ -271,8 +271,7 @@ class VRBehavior(Behavior):
         self.resp_loc_y = None
         self.speed_thr = 0.025 # in m/sec
         self.interface = VRProbe(logger)
-        # self.vr = Ball(path=os.getenv("HOME") + '/', target_path='/mnt/lab/data/Tracking/')
-        self.vr = Ball(path ='/home/eflab/Tracking/', target_path='/mnt/lab/data/Tracking/')
+        self.vr = Ball(logger, path ='/home/eflab/Tracking/', target_path='/mnt/lab/data/Tracking/')
         self.cond_tables = ['VRCond']
         super(VRBehavior, self).__init__(logger, params)
 
