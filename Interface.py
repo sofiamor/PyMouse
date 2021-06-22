@@ -337,9 +337,10 @@ class Ball(Interface):
 
 
     class MouseReader:
-        def __init__(self, path, dpm=31200):
+        def __init__(self, logger, path, dpm=31200):
             print('setting up mouse')
             self.dpm = dpm
+            self.logger = logger
             self.queue = multiprocessing.Queue()
             self.file = open(path, "rb")
             self.thread_end = multiprocessing.Event()
