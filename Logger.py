@@ -19,7 +19,7 @@ class Logger:
         self.setup, self.is_pi = socket.gethostname(), os.uname()[4][:3] == 'arm'
         self.curr_state, self.lock, self.queue, self.curr_trial, self.total_reward = '', False, PriorityQueue(), 0, 0
         self.session_key = dict()
-        self.ping_timer, self.session_timer = Timer(), Timer()
+        self.ping_timer, self.logger_timer = Timer(), Timer()
         self.setup_status = 'running' if protocol else 'ready'
         self.log_setup(protocol)
         fileobject = open(os.path.dirname(os.path.abspath(__file__)) + '/dj_local_conf.json')
@@ -34,6 +34,7 @@ class Logger:
         self.getter_thread = threading.Thread(target=self.getter)
         self.inserter_thread.start()
         self.getter_thread.start()
+        self.logger_timer.start()  # start session time
 
     def put(self, **kwargs): self.queue.put(PrioritizedItem(**kwargs))
 
@@ -58,11 +59,8 @@ class Logger:
             time.sleep(1)  # update once a second
 
     def log(self, table, data=dict()):
-        tmst = self.session_timer.elapsed_time()
-        if self.session_key:
-            self.put(table=table, tuple={**self.session_key, 'trial_idx': self.curr_trial, 'time': tmst, **data})
-        else:
-            print('No session key! Cannot log data into %s' % table)
+        tmst = self.logger_timer.elapsed_time()
+        self.put(table=table, tuple={**self.session_key, 'trial_idx': self.curr_trial, 'time': tmst, **data})
         return tmst
 
     def log_setup(self, task_idx=False):
@@ -83,7 +81,7 @@ class Logger:
             tdelta = lambda t: datetime.strptime(t, "%H:%M:%S") - datetime.strptime("00:00:00", "%H:%M:%S")
             key = {**key, 'start_time': tdelta(params['start_time']), 'stop_time': tdelta(params['stop_time'])}
         self.update_setup_info(key)
-        self.session_timer.start()  # start session time
+        self.logger_timer.start()  # start session time
 
     def log_conditions(self, conditions, condition_tables=[]):
         for cond in conditions:
@@ -107,12 +105,12 @@ class Logger:
     def init_trial(self, cond_hash):
         self.curr_trial += 1
         if self.lock: self.thread_lock.acquire()
-        self.curr_cond, self.trial_start = cond_hash, self.session_timer.elapsed_time()
+        self.curr_cond, self.trial_start = cond_hash, self.logger_timer.elapsed_time()
         return self.trial_start    # return trial start time
 
     def log_trial(self, last_flip_count=0):
         if self.lock: self.thread_lock.release()
-        timestamp = self.session_timer.elapsed_time()
+        timestamp = self.logger_timer.elapsed_time()
         self.put(table='Trial', tuple=dict(self.session_key, trial_idx=self.curr_trial, cond_hash=self.curr_cond,
                                     start_time=self.trial_start, end_time=timestamp, last_flip_count=last_flip_count))
 
@@ -120,7 +118,7 @@ class Logger:
         key = dict(setup=self.setup, probe=probe, date=systime.strftime("%Y-%m-%d"))
         self.put(table='LiquidCalibration', tuple=key, priority=5)
         self.put(table='LiquidCalibration.PulseWeight',
-                 tuple=dict(key, pulse_dur=pulse_dur, pulse_num=pulse_num, weight=weight))
+                 tuple=dict(key, pulse_dur=pulse_dur, pulse_num=pulse_num, weight=weight), replace=True)
 
     def update_setup_info(self, info):
         self.setup_info = {**(SetupControl() & dict(setup=self.setup)).fetch1(), **info}
@@ -133,10 +131,13 @@ class Logger:
 
     def get_protocol(self, task_idx=None):
         if not task_idx: task_idx = self.get_setup_info('task_idx')
-        protocol = (Task() & dict(task_idx=task_idx)).fetch1('protocol')
-        path, filename = os.path.split(protocol)
-        if not path: protocol = str(pathlib.Path(__file__).parent.absolute()) + '/conf/' + filename
-        return protocol
+        if len(Task() & dict(task_idx=task_idx)) > 0:
+            protocol = (Task() & dict(task_idx=task_idx)).fetch1('protocol')
+            path, filename = os.path.split(protocol)
+            if not path: protocol = str(pathlib.Path(__file__).parent.absolute()) + '/conf/' + filename
+            return protocol
+        else:
+            return False
 
     def ping(self, period=5000):
         if self.ping_timer.elapsed_time() >= period:  # occasionally update control table

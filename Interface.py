@@ -13,6 +13,7 @@ class Interface:
         self.ready_tmst = 0
         self.ready_dur =0
         self.ready = False
+        self.logging = False
         self.timer_probe1 = Timer()
         self.timer_probe2 = Timer()
         self.timer_ready = Timer()
@@ -46,12 +47,12 @@ class Interface:
         return probe, self.lick_tmst
 
     def probe1_licked(self, channel):
-        self.lick_tmst = self.logger.log('Lick', dict(probe=1))
+        self.lick_tmst = self.logger.log('Lick', dict(probe=1)) if self.logging else self.logger.logger_timer.elapsed_time()
         self.timer_probe1.start()
         self.probe = 1
 
     def probe2_licked(self, channel):
-        self.lick_tmst = self.logger.log('Lick', dict(probe=2))
+        self.lick_tmst = self.logger.log('Lick', dict(probe=2)) if self.logging else self.logger.logger_timer.elapsed_time()
         self.timer_probe2.start()
         self.probe = 2
 
@@ -75,18 +76,20 @@ class Interface:
 
 
 class RPProbe(Interface):
-    def __init__(self, logger, callbacks=True):
+    def __init__(self, logger, callbacks=True, logging=True):
         super(RPProbe, self).__init__(logger)
         from RPi import GPIO
         import pigpio
         self.setup_name = int(''.join(list(filter(str.isdigit, socket.gethostname()))))
         self.GPIO = GPIO
+        self.logging = logging
         self.GPIO.setmode(self.GPIO.BCM)
         self.channels = {'air': {1: 24, 2: 25},
                          'liquid': {1: 22, 2: 23},
                          'lick': {1: 17, 2: 27},
                          'start': {1: 9},
                          'sound': {1: 18}}
+        self.callbacks = callbacks
         self.frequency = 20
         self.pulses = dict()
         self.GPIO.setup(list(self.channels['lick'].values()) + [self.channels['start'][1]],
@@ -164,15 +167,16 @@ class RPProbe(Interface):
     def pulse_out(self, probe):
         self.Pulser.wave_send_once(self.pulses[probe])
 
-    def cleanup(self):
-        self.GPIO.remove_event_detect(self.channels['lick'][1])
-        self.GPIO.remove_event_detect(self.channels['lick'][2])
-        self.GPIO.remove_event_detect(self.channels['start'][1])
-        self.GPIO.cleanup()
-        self.Pulser.wave_clear()
-
     def getStart(self):
         return not self.GPIO.input(self.channels['start'][1])
+
+    def cleanup(self):
+        self.Pulser.wave_clear()
+        if self.callbacks:
+            self.GPIO.remove_event_detect(self.channels['lick'][1])
+            self.GPIO.remove_event_detect(self.channels['lick'][2])
+            self.GPIO.remove_event_detect(self.channels['start'][1])
+        self.GPIO.cleanup()
 
 
 class VRProbe(Interface):
